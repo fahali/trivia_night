@@ -1,6 +1,6 @@
 # Trivia Night
 
-A trivia game featuring questions from the [Open Trivia Database API](https://opentdb.com/api_config.php). The live version of the game is hosted [here](fahali.github.io/trivia_night). No installs are necessary, just visit the webpage and enjoy the game! (Please excuse the current appearance of the webpage as the project is still a work in progress)
+A trivia game featuring questions from the [Open Trivia Database API](https://opentdb.com/api_config.php). The live version of the game is hosted [here](https://fahali.github.io/trivia_night). No installs are necessary, just visit the webpage and enjoy the game! (Please excuse the current appearance of the webpage as the project is still a work in progress)
 
 ## Technologies Used
 
