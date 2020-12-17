@@ -18,6 +18,31 @@ TODO
 
 TODO
 
-## Timeframe and Project Schedule
+## Timeframe
 
-TODO
+| Task                                   | Priority | Estimated Time | Time Invested | Actual Time |
+| -------------------------------------- | :------: | :------------: | :-----------: | :---------: |
+| Setup: GitHub Pages, Trello, README.md |    H     |     2 hrs      |     1 hrs     |    X hrs    |
+| Basic game loop                        |    H     |     4 hrs      |     X hrs     |    X hrs    |
+| Basic styling                          |    H     |     4 hrs      |     X hrs     |    X hrs    |
+| Advanced API features                  |    M     |     4 hrs      |     X hrs     |    X hrs    |
+| Timed scoring                          |    M     |     4 hrs      |     X hrs     |    X hrs    |
+| Quick Game mode                        |    M     |     2 hrs      |     X hrs     |    X hrs    |
+| Elevator music                         |    L     |     4 hrs      |     X hrs     |    X hrs    |
+| Save user session / prefs via cookies  |    L     |     4 hrs      |     X hrs     |    X hrs    |
+| Light/dark theme                       |    L     |     8 hrs      |     X hrs     |    X hrs    |
+| Responsive design                      |    L     |     8 hrs      |     X hrs     |    X hrs    |
+| jQuery re-write                        |    L     |     8 hrs      |     X hrs     |    X hrs    |
+| Total                                  |    X     |     52 hrs     |     1 hrs     |    X hrs    |
+
+## Project Schedule
+
+| Day    | Deliverable                                                           | Status      |
+| ------ | --------------------------------------------------------------------- | ----------- |
+| Dec 17 | Setup / Basic logic / Basic styling                                   | in progress |
+| Dec 18 | Advanced API features / Timed scoring                                 | incomplete  |
+| Dec 19 | Quick Game mode / Elevator music / Integrate cookies and user session | incomplete  |
+| Dec 20 | Responsive design / Light/dark theme                                  | incomplete  |
+| Dec 21 | Advanced styling / jQuery re-write                                    | incomplete  |
+| Dec 22 | Last touches / Polishing up                                           | incomplete  |
+| Dec 23 | Presentations                                                         |
