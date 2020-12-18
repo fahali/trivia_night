@@ -10,6 +10,12 @@ The project is hosted via GitHub Pages, served directly from my public repo.
 
 Features and issue tracking / management is handled with Trello. Check out my progress [here](https://trello.com/b/LL1B6SMi/trivia-night-seir-p1).
 
+## Interesting challenges
+
+One issue that became apparent right away was encoding issues. If the questions or answers being served had special characters, those characters would be returned encoded with HTML entities. I had a really hard time getting those entities to render properly without resorting to hacky methods like using the `.innerHTML` properties of `HTMLElement` objects. The first solution was to use `base64` encoding, but that brought about its own headaches. It seemed like with `base64`, I was running into Unicode character issues. Luckily the API can also serve the information encoded as a URI (established with [RFC 3986](https://www.ietf.org/rfc/rfc3986.txt)), which ultimately ended up being the solution I needed.
+
+A new issue I'm facing is that questions can repeat, even between consecutive games! I will need to investigate using the API's session tokens to prevent this from happening (at least, until all the questions are exhausted).
+
 ## User Stories
 
 TODO
