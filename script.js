@@ -29,7 +29,7 @@ const api = {
    defaults: {
       amount: 10,
       max_amount: 50,
-      encode: 'base64',
+      encode: 'url3986',
       category: 9, // general category - TODO refactor this
       level: 'easy',
       type: 'multiple'
@@ -83,12 +83,13 @@ class Game {
 
    setQuestions = questions => {
       this.questions = questions.map(question => {
-         question.question_string = atob(question.question);
-         question.correct_string = atob(question.correct_answer);
+         question.question_string = decodeURIComponent(question.question);
+         question.correct_string = decodeURIComponent(question.correct_answer);
          question.incorrect_strings = question.incorrect_answers.map(answer => {
-            return atob(answer);
+            return decodeURIComponent(answer);
          });
-         question.boolean = atob(question.type) === 'boolean' ? true : false;
+         question.boolean =
+            decodeURIComponent(question.type) === 'boolean' ? true : false;
          return question;
       });
    };
