@@ -130,6 +130,7 @@ document.body.addEventListener('click', event => {
       game.currentAnswers().forEach(answer => {
          const button = document.createElement('button');
          button.classList.add('answer');
+         button.classList.add('button');
          button.innerHTML = answer;
          answers.appendChild(button);
       });
@@ -145,7 +146,7 @@ document.body.addEventListener('click', event => {
       renderQuestion();
    };
 
-   if (target.classList.contains('new-game')) {
+   if (target.classList.contains('reset')) {
       resetGame();
 
       // console.log(defaultUrl); // TODO - remove console.log
@@ -173,9 +174,9 @@ document.body.addEventListener('click', event => {
       game.nextQuestion();
 
       if (game.isGameOver()) {
-         wintext.textContent = `Congratulations, you scored ${
+         wintext.innerHTML = `You scored ${
             game.score
-         } out of ${game.totalQuestions()} questions! Play again?`;
+         } out of ${game.totalQuestions()} questions!<br /><br />Play again?`;
          modal.style.display = 'flex';
 
          return;

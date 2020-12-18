@@ -7,20 +7,21 @@
       <link rel="stylesheet" href="style.css" />
    </head>
    <body>
-      <h1>
-         Welcome to Trivia Night, the fun trivia game with new questions every
-         time
-      </h1>
-      <h3 class="score"></h3>
-      <div class="card">
-         <p class="question"></p>
-         <div class="answers"></div>
-      </div>
-      <button class="new-game">New Game</button>
+      <header>
+         <h1 class="title">Welcome to Trivia Night</h1>
+         <button class="reset button">New Game</button>
+      </header>
+      <main>
+         <h2 class="score"></h2>
+         <div class="card">
+            <p class="question"></p>
+            <div class="answers"></div>
+         </div>
+      </main>
       <div class="modal">
          <div class="dialog">
             <p class="wintext"></p>
-            <button class="new-game">Reset Game</button>
+            <button class="reset button">New Game</button>
          </div>
       </div>
       <script src="script.js"></script>
