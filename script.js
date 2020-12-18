@@ -11,6 +11,7 @@ const api = {
    arguments: {
       amount: 'amount=',
       category: 'category=',
+      encode: 'encode=',
       level: 'difficulty=',
       levels: {
          easy: 'easy',
@@ -28,6 +29,7 @@ const api = {
    defaults: {
       amount: 10,
       max_amount: 50,
+      encode: 'base64',
       category: 9, // general category - TODO refactor this
       level: 'easy',
       type: 'multiple'
@@ -45,11 +47,11 @@ class Game {
       this.questions = null;
    };
 
-   currentQAPair = () => this.questions[this.index];
+   currentQuestion = () => this.questions[this.index];
 
-   currentQuestion = () => this.currentQAPair().question;
+   currentQuestionString = () => this.currentQuestion().question_string;
 
-   correctAnswer = () => this.currentQAPair().correct_answer;
+   correctAnswerString = () => this.currentQuestion().correct_string;
 
    currentAnswers = () => {
       // Fisher - Yates shuffle algorithm written in Javascript
@@ -64,11 +66,18 @@ class Game {
          return array;
       };
 
-      const answers = [this.correctAnswer()].concat(
-         this.currentQAPair().incorrect_answers
-      );
+      // const answers = [this.correctAnswerString()].concat(
+      //    this.currentQuestion().incorrect_strings
+      // );
 
-      return shuffle(answers);
+      return this.currentQuestion().boolean
+         ? ['True', 'False']
+         : shuffle(
+              [this.correctAnswerString()].concat(
+                 this.currentQuestion().incorrect_strings
+              )
+           );
+      // return answers.length > 2 ? shuffle(answers) : answers;
    };
 
    nextQuestion = () => this.index++;
@@ -77,12 +86,81 @@ class Game {
 
    totalQuestions = () => this.questions.length;
 
-   setQuestions = questions => (this.questions = questions);
+   setQuestions = questions => {
+      this.questions = questions.map(question => {
+         question.question_string = atob(question.question);
+         question.correct_string = atob(question.correct_answer);
+         question.incorrect_strings = question.incorrect_answers.map(answer => {
+            return atob(answer);
+         });
+         question.boolean = atob(question.type) === 'boolean' ? true : false;
+         return question;
+      });
+   };
 
    isGameOver = () => this.index === this.totalQuestions();
 }
 
 const game = new Game();
+
+const EMPTY = '';
+
+const question = document.querySelector('.question');
+const answers = document.querySelector('.answers');
+
+const modal = document.querySelector('.modal');
+const wintext = document.querySelector('.wintext');
+
+const resetCard = () => {
+   question.textContent = EMPTY;
+   answers.textContent = EMPTY;
+};
+
+const resetGame = () => {
+   game.reset();
+   resetCard();
+   renderScore();
+   modal.style.display = 'none';
+   wintext.textContent = EMPTY;
+};
+
+const renderWin = () => {
+   wintext.appendChild(
+      document.createTextNode(
+         `You scored ${game.score} out of ${game.totalQuestions()} questions!`
+      )
+   );
+   wintext.appendChild(document.createElement('br'));
+   wintext.appendChild(document.createElement('br'));
+   wintext.appendChild(document.createTextNode(`Play again?`));
+   modal.style.display = 'flex';
+};
+
+const renderQuestion = () => {
+   resetCard();
+
+   question.textContent = game.currentQuestionString();
+
+   // console.log(game.currentAnswers()); // TODO - remove console.log
+
+   game.currentAnswers().forEach(answer => {
+      const button = document.createElement('button');
+      button.classList.add('answer');
+      button.classList.add('button');
+      button.textContent = answer;
+      answers.appendChild(button);
+   });
+};
+
+const renderScore = () => {
+   const score = document.querySelector('.score');
+   score.textContent = `SCORE: ${game.score}`;
+};
+
+const render = () => {
+   renderScore();
+   renderQuestion();
+};
 
 document.body.addEventListener('click', event => {
    event.preventDefault();
@@ -91,60 +169,11 @@ document.body.addEventListener('click', event => {
    const and = '&';
    const defaultUrl =
       api.endpoint +
-      api.arguments.category +
-      api.defaults.category +
-      and +
-      api.arguments.type +
-      api.defaults.type +
-      and +
-      api.arguments.level +
-      api.defaults.level +
-      and +
       api.arguments.amount +
-      api.defaults.amount;
-
-   const EMPTY = '';
-
-   const question = document.querySelector('.question');
-   const answers = document.querySelector('.answers');
-
-   const modal = document.querySelector('.modal');
-   const wintext = document.querySelector('.wintext');
-
-   const resetCard = () => {
-      question.textContent = EMPTY;
-      answers.textContent = EMPTY;
-   };
-
-   const resetGame = () => {
-      game.reset();
-      resetCard();
-      modal.style.display = 'none';
-      wintext.textContent = EMPTY;
-   };
-
-   const renderQuestion = () => {
-      resetCard();
-
-      question.innerHTML = game.currentQuestion();
-      game.currentAnswers().forEach(answer => {
-         const button = document.createElement('button');
-         button.classList.add('answer');
-         button.classList.add('button');
-         button.innerHTML = answer;
-         answers.appendChild(button);
-      });
-   };
-
-   const renderScore = () => {
-      const score = document.querySelector('.score');
-      score.textContent = `SCORE: ${game.score} / ${game.totalQuestions()}`;
-   };
-
-   const render = () => {
-      renderScore();
-      renderQuestion();
-   };
+      api.defaults.amount +
+      and +
+      api.arguments.encode +
+      api.defaults.encode;
 
    if (target.classList.contains('reset')) {
       resetGame();
@@ -161,27 +190,25 @@ document.body.addEventListener('click', event => {
                game.setQuestions(data.results);
             }
             // console.log(game.questions); // TODO - remove console.log
-            render();
+            renderQuestion();
          })
          .catch(error => console.log(error));
    }
 
    if (target.classList.contains('answer')) {
       const choice = target.textContent;
-      if (choice === game.correctAnswer()) {
+      if (choice === game.correctAnswerString()) {
          game.incrementScore();
       }
       game.nextQuestion();
+      renderScore();
 
       if (game.isGameOver()) {
-         wintext.innerHTML = `You scored ${
-            game.score
-         } out of ${game.totalQuestions()} questions!<br /><br />Play again?`;
-         modal.style.display = 'flex';
+         renderWin();
 
          return;
       }
 
-      render();
+      renderQuestion();
    }
 });

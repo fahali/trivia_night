@@ -37,12 +37,12 @@ TODO
 
 ## Project Schedule
 
-| Day    | Deliverable                                                           | Status      |
-| ------ | --------------------------------------------------------------------- | ----------- |
-| Dec 17 | Setup / Basic logic / Basic styling                                   | in progress |
-| Dec 18 | Advanced API features / Timed scoring                                 | incomplete  |
-| Dec 19 | Quick Game mode / Elevator music / Integrate cookies and user session | incomplete  |
-| Dec 20 | Responsive design / Light/dark theme                                  | incomplete  |
-| Dec 21 | Advanced styling / jQuery re-write                                    | incomplete  |
-| Dec 22 | Last touches / Polishing up                                           | incomplete  |
+| Day    | Deliverable                                                           | Status     |
+| ------ | --------------------------------------------------------------------- | ---------- |
+| Dec 17 | Setup / Basic logic / Basic styling                                   | complete   |
+| Dec 18 | Advanced API features / Timed scoring                                 | incomplete |
+| Dec 19 | Quick Game mode / Elevator music / Integrate cookies and user session | incomplete |
+| Dec 20 | Responsive design / Light/dark theme                                  | incomplete |
+| Dec 21 | Advanced styling / jQuery re-write                                    | incomplete |
+| Dec 22 | Last touches / Polishing up                                           | incomplete |
 | Dec 23 | Presentations                                                         |
