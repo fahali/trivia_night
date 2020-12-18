@@ -9,7 +9,7 @@
    <body>
       <header>
          <h1 class="title">Welcome to Trivia Night</h1>
-         <button class="reset button">New Game</button>
+         <button class="new menu button">New Game</button>
       </header>
       <main>
          <details>
@@ -33,10 +33,16 @@
             <section class="answers"></section>
          </section>
       </main>
-      <aside class="modal">
+      <aside class="options modal">
+         <form class="dialog">
+            <select name="category-select" id="categories"></select>
+            <button class="start menu button">Start Game</button>
+         </form>
+      </aside>
+      <aside class="end modal">
          <section class="dialog">
             <p class="gameover"></p>
-            <button class="reset button">New Game</button>
+            <button class="new menu button">New Game</button>
          </section>
       </aside>
       <script type="module" src="script.js"></script>

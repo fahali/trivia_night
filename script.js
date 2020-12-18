@@ -6,20 +6,12 @@ const game = new Game();
 const renderer = new Renderer();
 
 const reset = () => {
-   const and = '&';
-   const defaultUrl =
-      api.endpoint +
-      api.arguments.amount +
-      api.defaults.amount +
-      and +
-      api.arguments.encode +
-      api.defaults.encode;
-
    game.reset();
    renderer.reset();
+};
 
-   // console.log(defaultUrl); // TODO - remove console.log
-   fetch(defaultUrl)
+const start = url => {
+   fetch(url)
       .then(response => {
          return response.json();
       })
@@ -28,11 +20,27 @@ const reset = () => {
             game.setQuestions(data.results);
 
             renderer.renderDetails(game.totalQuestions());
+            renderer.renderScore();
             renderer.renderQuestion(
                game.currentQuestionString(),
                game.currentAnswers()
             );
          }
+      })
+      .catch(error => console.log(error));
+};
+
+const setCategories = () => {
+   fetch(api.category_list)
+      .then(response => response.json())
+      .then(data => {
+         renderer.setCategories(
+            data.trivia_categories.sort((a, b) => {
+               const nameA = a.name.toLowerCase();
+               const nameB = b.name.toLowerCase();
+               return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+            })
+         );
       })
       .catch(error => console.log(error));
 };
@@ -43,7 +51,7 @@ const processAnswer = answer => {
    renderer.renderScore(game.score, game.index);
 
    if (game.isGameOver()) {
-      renderer.renderWin(game.score, game.totalQuestions());
+      renderer.renderGameover(game.score, game.totalQuestions());
 
       return;
    }
@@ -55,8 +63,31 @@ document.body.addEventListener('click', event => {
    event.preventDefault();
    const target = event.target;
 
-   if (target.classList.contains('reset')) {
+   if (target.classList.contains('new')) {
       reset();
+      setCategories();
+      renderer.showOptions();
+   }
+
+   if (target.classList.contains('start')) {
+      renderer.hideOptions();
+
+      const and = '&';
+      let url =
+         api.endpoint +
+         api.arguments.amount +
+         api.defaults.min_amount +
+         and +
+         api.arguments.encode +
+         api.defaults.encode;
+
+      const category = document.querySelector('#categories').value;
+      if (category > -1) {
+         url += and + api.arguments.category + category;
+      }
+
+      console.log(url);
+      start(url);
    }
 
    if (target.classList.contains('answer')) {

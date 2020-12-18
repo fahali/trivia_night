@@ -5,8 +5,18 @@ class Renderer {
    };
 
    resetDetails = () => {
-      document.querySelector('.correct-label').textContent = 'correct:';
-      document.querySelector('.answered-label').textContent = 'answered:';
+      document.querySelector('details').style.visibility = 'hidden';
+
+      document.querySelector('.basic-config').textContent = '';
+      document.querySelector('.extended-config').textContent = '';
+
+      document.querySelector('.correct-label').textContent = '';
+      document.querySelector('.answered-label').textContent = '';
+   };
+
+   resetScore = () => {
+      document.querySelector('.correct').textContent = '';
+      document.querySelector('.answered').textContent = '';
    };
 
    resetCard = () => {
@@ -14,10 +24,51 @@ class Renderer {
       document.querySelector('.answers').textContent = '';
    };
 
+   resetCategories = () => {
+      document.querySelector('#categories').textContent = '';
+   };
+
+   setCategories = categories => {
+      // A quick and easy way to have placeholder text for the dropdown menu
+      // https://stackoverflow.com/a/30525521/1987724
+      let option = document.createElement('option');
+
+      option.selected = true;
+      option.disabled = true;
+      option.hidden = true;
+      option.value = -1;
+      option.textContent = 'Please select a category';
+
+      const select = document.querySelector('#categories');
+      select.appendChild(option);
+
+      categories.forEach(category => {
+         option = document.createElement('option');
+
+         option.value = category.id;
+         option.textContent = category.name;
+
+         select.appendChild(option);
+      });
+   };
+
+   hideOptions = () => {
+      document.querySelector('.options').style.display = 'none';
+   };
+
+   showOptions = () => {
+      document.querySelector('.options').style.display = 'flex';
+   };
+
    renderDetails = questions => {
+      document.querySelector('details').style.visibility = 'visible';
+
       let config = `${questions} questions`;
       document.querySelector('.basic-config').textContent = config;
       document.querySelector('.extended-config').textContent = config;
+
+      document.querySelector('.correct-label').textContent = 'correct:';
+      document.querySelector('.answered-label').textContent = 'answered:';
    };
 
    renderScore = (score = 0, answered = 0) => {
@@ -41,7 +92,7 @@ class Renderer {
       });
    };
 
-   renderWin = (score, total) => {
+   renderGameover = (score, total) => {
       const gameover = document.querySelector('.gameover');
 
       gameover.appendChild(
@@ -54,18 +105,16 @@ class Renderer {
       gameover.appendChild(document.createElement('br'));
       gameover.appendChild(document.createTextNode('Play again?'));
 
-      document.querySelector('.modal').style.display = 'flex';
+      document.querySelector('.end').style.display = 'flex';
    };
 
    reset = () => {
       this.resetDetails();
+      this.resetScore();
       this.resetCard();
-      // TODO - I don't like calling renderScore here, feels wrong
-      //        figure out how to get rid of this but still have the score
-      //        update before we hide the modal
-      this.renderScore();
+      this.resetCategories();
 
-      document.querySelector('.modal').style.display = 'none';
+      document.querySelector('.end').style.display = 'none';
       document.querySelector('.gameover').textContent = '';
    };
 }

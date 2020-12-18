@@ -13,24 +13,17 @@ const api = {
       category: 'category=',
       encode: 'encode=',
       level: 'difficulty=',
-      levels: {
-         easy: 'easy',
-         medium: 'medium',
-         hard: 'hard'
-      },
+      levels: ['easy', 'medium', 'hard'],
       type: 'type=',
-      types: {
-         multiple: 'multiple',
-         boolean: 'boolean'
-      },
+      types: ['multiple', 'boolean'],
       token: 'token=',
       new_token: 'command=request'
    },
    defaults: {
-      amount: 10,
+      min_amount: 10,
       max_amount: 50,
-      encode: 'url3986',
       category: 9, // general category - TODO refactor this
+      encode: 'url3986',
       level: 'easy',
       type: 'multiple'
    }
