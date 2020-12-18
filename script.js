@@ -66,10 +66,6 @@ class Game {
          return array;
       };
 
-      // const answers = [this.correctAnswerString()].concat(
-      //    this.currentQuestion().incorrect_strings
-      // );
-
       return this.currentQuestion().boolean
          ? ['True', 'False']
          : shuffle(
@@ -77,7 +73,6 @@ class Game {
                  this.currentQuestion().incorrect_strings
               )
            );
-      // return answers.length > 2 ? shuffle(answers) : answers;
    };
 
    nextQuestion = () => this.index++;
@@ -103,64 +98,54 @@ class Game {
 
 const game = new Game();
 
-const EMPTY = '';
+class Renderer {
+   resetCard = () => {
+      document.querySelector('.question').textContent = '';
+      document.querySelector('.answers').textContent = '';
+   };
 
-const question = document.querySelector('.question');
-const answers = document.querySelector('.answers');
+   resetGame = () => {
+      this.resetCard();
+      this.renderScore();
+      document.querySelector('.modal').style.display = 'none';
+      document.querySelector('.wintext').textContent = '';
+   };
 
-const modal = document.querySelector('.modal');
-const wintext = document.querySelector('.wintext');
+   renderWin = (score, total) => {
+      const wintext = document.querySelector('.wintext');
 
-const resetCard = () => {
-   question.textContent = EMPTY;
-   answers.textContent = EMPTY;
-};
+      wintext.appendChild(
+         document.createTextNode(
+            `You scored ${score} out of ${total} questions!`
+         )
+      );
+      wintext.appendChild(document.createElement('br'));
+      wintext.appendChild(document.createElement('br'));
+      wintext.appendChild(document.createTextNode(`Play again?`));
 
-const resetGame = () => {
-   game.reset();
-   resetCard();
-   renderScore();
-   modal.style.display = 'none';
-   wintext.textContent = EMPTY;
-};
+      document.querySelector('.modal').style.display = 'flex';
+   };
 
-const renderWin = () => {
-   wintext.appendChild(
-      document.createTextNode(
-         `You scored ${game.score} out of ${game.totalQuestions()} questions!`
-      )
-   );
-   wintext.appendChild(document.createElement('br'));
-   wintext.appendChild(document.createElement('br'));
-   wintext.appendChild(document.createTextNode(`Play again?`));
-   modal.style.display = 'flex';
-};
+   renderQuestion = (question, answers) => {
+      this.resetCard();
 
-const renderQuestion = () => {
-   resetCard();
+      document.querySelector('.question').textContent = question;
 
-   question.textContent = game.currentQuestionString();
+      answers.forEach(answer => {
+         const button = document.createElement('button');
+         button.classList.add('answer');
+         button.classList.add('button');
+         button.textContent = answer;
+         document.querySelector('.answers').appendChild(button);
+      });
+   };
 
-   // console.log(game.currentAnswers()); // TODO - remove console.log
+   renderScore = (score = 0) => {
+      document.querySelector('.score').textContent = `SCORE: ${score}`;
+   };
+}
 
-   game.currentAnswers().forEach(answer => {
-      const button = document.createElement('button');
-      button.classList.add('answer');
-      button.classList.add('button');
-      button.textContent = answer;
-      answers.appendChild(button);
-   });
-};
-
-const renderScore = () => {
-   const score = document.querySelector('.score');
-   score.textContent = `SCORE: ${game.score}`;
-};
-
-const render = () => {
-   renderScore();
-   renderQuestion();
-};
+const renderer = new Renderer();
 
 document.body.addEventListener('click', event => {
    event.preventDefault();
@@ -176,7 +161,8 @@ document.body.addEventListener('click', event => {
       api.defaults.encode;
 
    if (target.classList.contains('reset')) {
-      resetGame();
+      game.reset();
+      renderer.resetGame();
 
       // console.log(defaultUrl); // TODO - remove console.log
       fetch(defaultUrl)
@@ -190,7 +176,10 @@ document.body.addEventListener('click', event => {
                game.setQuestions(data.results);
             }
             // console.log(game.questions); // TODO - remove console.log
-            renderQuestion();
+            renderer.renderQuestion(
+               game.currentQuestionString(),
+               game.currentAnswers()
+            );
          })
          .catch(error => console.log(error));
    }
@@ -201,14 +190,17 @@ document.body.addEventListener('click', event => {
          game.incrementScore();
       }
       game.nextQuestion();
-      renderScore();
+      renderer.renderScore(game.score);
 
       if (game.isGameOver()) {
-         renderWin();
+         renderer.renderWin(game.score, game.totalQuestions());
 
          return;
       }
 
-      renderQuestion();
+      renderer.renderQuestion(
+         game.currentQuestionString(),
+         game.currentAnswers()
+      );
    }
 });
