@@ -45,11 +45,16 @@ body {
 header {
    background-color: var(--main-color);
    width: 97%;
-   margin-top: 1rem;
+   margin: 1rem;
    border-radius: 1rem;
    display: flex;
-   justify-content: space-around;
+   justify-content: space-between;
    align-items: center;
+}
+
+header > * {
+   margin: 1rem 2rem;
+   padding: 1rem;
 }
 
 .title {
@@ -62,22 +67,68 @@ header {
 
 main {
    width: 90%;
-   height: 90%;
    font-size: 2rem;
-   font-family: var(--content-font);
    margin: 2rem;
    display: flex;
    flex-direction: column;
    align-items: center;
 }
 
+details {
+   width: 100%;
+}
+
+details > *,
+.quick-score,
+.detailed-score {
+   display: flex;
+}
+
+details > * {
+   justify-content: space-between;
+}
+
+.basic-config,
+.quick-score > p,
+.detailed-score > p {
+   margin-top: 0;
+   margin-bottom: 0;
+}
+
+.stats {
+   font-size: 1.5rem;
+}
+
+.extended-config,
+.detailed-score {
+   margin-top: 0.5rem;
+}
+
+.extended-config {
+   margin-right: 1rem;
+}
+
+.detailed-score {
+   margin-left: 1rem;
+}
+
+.quick-score > .correct-label,
+.detailed-score > .total-label {
+   margin-right: 0.5rem;
+}
+
 .card {
    width: 100%;
-   margin: 3rem;
+   margin: 7rem;
+   font-family: var(--content-font);
    display: flex;
    flex-direction: column;
    align-items: center;
    text-align: center;
+}
+
+.question {
+   font-size: 3rem;
 }
 
 .answers {

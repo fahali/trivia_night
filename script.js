@@ -8,6 +8,7 @@ const renderer = new Renderer();
 document.body.addEventListener('click', event => {
    event.preventDefault();
    const target = event.target;
+   // console.log(target.tagName); // TODO - remove console.log
 
    const and = '&';
    const defaultUrl =
@@ -58,5 +59,10 @@ document.body.addEventListener('click', event => {
          game.currentQuestionString(),
          game.currentAnswers()
       );
+   }
+
+   if (target.tagName === 'SUMMARY') {
+      // console.log('hello'); // TODO - remove console.log
+      target.parentNode.open = target.parentNode.open ? false : true;
    }
 });

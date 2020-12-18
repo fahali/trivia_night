@@ -5,7 +5,7 @@ class Renderer {
    };
 
    renderScore = (score = 0) => {
-      document.querySelector('.score').textContent = `SCORE: ${score}`;
+      // document.querySelector('.score').textContent = `SCORE: ${score}`;
    };
 
    renderQuestion = (question, answers) => {
