@@ -1,11 +1,28 @@
 class Renderer {
+   toggleDetails = () => {
+      const details = document.querySelector('details');
+      details.open = details.open ? false : true;
+   };
+
+   resetDetails = () => {
+      document.querySelector('.correct-label').textContent = 'correct:';
+      document.querySelector('.answered-label').textContent = 'answered:';
+   };
+
    resetCard = () => {
       document.querySelector('.question').textContent = '';
       document.querySelector('.answers').textContent = '';
    };
 
-   renderScore = (score = 0) => {
-      // document.querySelector('.score').textContent = `SCORE: ${score}`;
+   renderDetails = questions => {
+      let config = `${questions} questions`;
+      document.querySelector('.basic-config').textContent = config;
+      document.querySelector('.extended-config').textContent = config;
+   };
+
+   renderScore = (score = 0, answered = 0) => {
+      document.querySelector('.correct').textContent = score;
+      document.querySelector('.answered').textContent = answered;
    };
 
    renderQuestion = (question, answers) => {
@@ -41,6 +58,7 @@ class Renderer {
    };
 
    reset = () => {
+      this.resetDetails();
       this.resetCard();
       // TODO - I don't like calling renderScore here, feels wrong
       //        figure out how to get rid of this but still have the score

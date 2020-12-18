@@ -113,13 +113,13 @@ details > * {
 }
 
 .quick-score > .correct-label,
-.detailed-score > .total-label {
+.detailed-score > .answered-label {
    margin-right: 0.5rem;
 }
 
 .card {
    width: 100%;
-   margin: 7rem;
+   margin: 5rem;
    font-family: var(--content-font);
    display: flex;
    flex-direction: column;
