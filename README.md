@@ -14,8 +14,6 @@ Features and issue tracking / management is handled with Trello. Check out my pr
 
 One issue that became apparent right away was encoding issues. If the questions or answers being served had special characters, those characters would be returned encoded with HTML entities. I had a really hard time getting those entities to render properly without resorting to hacky methods like using the `.innerHTML` properties of `HTMLElement` objects. The first solution was to use `base64` encoding, but that brought about its own headaches. It seemed like with `base64`, I was running into Unicode character issues. Luckily the API can also serve the information encoded as a URI (established with [RFC 3986](https://www.ietf.org/rfc/rfc3986.txt)), which ultimately ended up being the solution I needed.
 
-A new issue I'm facing is that questions can repeat, even between consecutive games! I will need to investigate using the API's session tokens to prevent this from happening (at least, until all the questions are exhausted).
-
 ## User Stories
 
 TODO
@@ -32,7 +30,7 @@ TODO
 | Basic game loop                        |    H     |     4 hrs      |     3 hrs     |    X hrs    |
 | Basic styling                          |    H     |     4 hrs      |     3 hrs     |    X hrs    |
 | Bug fixing / refactoring               |    H     |     8 hrs      |    8.5 hrs    |    X hrs    |
-| Advanced API features                  |    M     |     4 hrs      |    3.5 hrs    |    X hrs    |
+| Advanced API features                  |    M     |     4 hrs      |     9 hrs     |    X hrs    |
 | Timed scoring                          |    M     |     4 hrs      |     X hrs     |    X hrs    |
 | Quick Game mode                        |    M     |     2 hrs      |     X hrs     |    X hrs    |
 | Elevator music                         |    L     |     4 hrs      |     X hrs     |    X hrs    |
@@ -40,7 +38,7 @@ TODO
 | Light/dark theme                       |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | Responsive design                      |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | jQuery re-write                        |    L     |     8 hrs      |     X hrs     |    X hrs    |
-| Total                                  |    X     |     60 hrs     |    19 hrs     |    X hrs    |
+| Total                                  |    X     |     60 hrs     |    28 hrs     |    X hrs    |
 
 ## Project Schedule
 
