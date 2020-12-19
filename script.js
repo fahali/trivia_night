@@ -49,6 +49,7 @@ const buildForm = () => {
    setCategories();
    renderer.setLevels(api.arguments.levels);
    renderer.setTypes(api.arguments.types);
+   renderer.setAmount(api.defaults.min_amount, api.defaults.max_amount);
    renderer.setStartButton();
 };
 
@@ -68,18 +69,26 @@ const processAnswer = answer => {
 
 const formURL = () => {
    const and = '&';
-   let url =
-      api.endpoint +
-      api.arguments.amount +
-      api.defaults.min_amount +
-      and +
-      api.arguments.encode +
-      api.defaults.encode;
+   let url = api.endpoint + api.arguments.encode + api.defaults.encode;
 
    const category = document.querySelector('#categories').value;
    if (category > -1) {
       url += and + api.arguments.category + category;
    }
+
+   const type = document.querySelector('input[name="type"]:checked');
+   if (type) {
+      url += and + api.arguments.type + type.id;
+   }
+
+   const level = document.querySelector('input[name="level"]:checked');
+   if (level) {
+      url += and + api.arguments.level + level.id;
+   }
+
+   let amount = document.querySelector('#amount').value;
+   amount = amount === '' ? api.defaults.min_amount : amount;
+   url += and + api.arguments.amount + amount;
 
    return url;
 };

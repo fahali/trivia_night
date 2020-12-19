@@ -52,13 +52,6 @@ class Renderer {
       });
    };
 
-   toTitleCase = string => {
-      return string
-         .split(' ')
-         .map(word => word[0].toUpperCase().concat(word.substring(1)))
-         .join(' ');
-   };
-
    setLevels = levels => {
       const legend = document.createElement('legend');
       legend.textContent = 'DIFFICULTY';
@@ -75,7 +68,7 @@ class Renderer {
          radio.id = level;
 
          label.setAttribute('for', level);
-         label.textContent = this.toTitleCase(level);
+         label.textContent = level[0].toUpperCase().concat(level.substring(1));
 
          fieldset.appendChild(radio);
          fieldset.appendChild(label);
@@ -95,14 +88,14 @@ class Renderer {
       types.forEach(type => {
          const radio = document.createElement('input');
          const label = document.createElement('label');
-         const name = type === 'boolean' ? 'boolean' : 'multiple';
+         const text = type === 'boolean' ? 'True / False' : 'Multiple choice';
 
          radio.type = 'radio';
          radio.name = 'type';
-         radio.id = name;
+         radio.id = type;
 
-         label.for = name;
-         label.textContent = this.toTitleCase(name);
+         label.setAttribute('for', type);
+         label.textContent = text;
 
          fieldset.appendChild(radio);
          fieldset.appendChild(label);
@@ -112,7 +105,25 @@ class Renderer {
       options.appendChild(fieldset);
    };
 
-   setAmount = (min, max) => {};
+   setAmount = (min, max) => {
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      const id = 'amount';
+
+      label.setAttribute('for', id);
+      label.textContent = 'NUMBER (10 - 50)';
+
+      input.type = 'number';
+      input.id = id;
+      input.name = id;
+      input.min = min;
+      input.max = max;
+      input.placeholder = 10;
+
+      const options = document.querySelector('form.dialog');
+      options.appendChild(label);
+      options.appendChild(input);
+   };
 
    setStartButton = () => {
       const button = document.createElement('button');
