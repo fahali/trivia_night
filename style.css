@@ -171,15 +171,29 @@ details > * {
 .dialog {
    background-color: var(--main-color);
    font-size: 2rem;
-   width: 600px;
-   height: 360px;
    position: fixed;
    top: 25%;
    border-radius: 1rem;
    display: flex;
    flex-direction: column;
-   justify-content: space-around;
    align-items: center;
+}
+
+form.dialog > * {
+   margin: 1rem 3rem;
+}
+
+#categories {
+   font-family: var(--content-font);
+   font-size: 1rem;
+}
+
+section.dialog {
+   justify-content: space-around;
+}
+
+section.dialog > * {
+   margin: 3rem;
 }
 
 .gameover {

@@ -25,7 +25,7 @@ class Renderer {
    };
 
    resetCategories = () => {
-      document.querySelector('#categories').textContent = '';
+      document.querySelector('#categories').firstChild.selected = true;
    };
 
    setCategories = categories => {
@@ -50,6 +50,81 @@ class Renderer {
 
          select.appendChild(option);
       });
+   };
+
+   toTitleCase = string => {
+      return string
+         .split(' ')
+         .map(word => word[0].toUpperCase().concat(word.substring(1)))
+         .join(' ');
+   };
+
+   setLevels = levels => {
+      const legend = document.createElement('legend');
+      legend.textContent = 'DIFFICULTY';
+
+      const fieldset = document.createElement('fieldset');
+      fieldset.appendChild(legend);
+
+      levels.forEach(level => {
+         const radio = document.createElement('input');
+         const label = document.createElement('label');
+
+         radio.type = 'radio';
+         radio.name = 'level';
+         radio.id = level;
+
+         label.setAttribute('for', level);
+         label.textContent = this.toTitleCase(level);
+
+         fieldset.appendChild(radio);
+         fieldset.appendChild(label);
+      });
+
+      const options = document.querySelector('form.dialog');
+      options.appendChild(fieldset);
+   };
+
+   setTypes = types => {
+      const legend = document.createElement('legend');
+      legend.textContent = 'TYPE';
+
+      const fieldset = document.createElement('fieldset');
+      fieldset.appendChild(legend);
+
+      types.forEach(type => {
+         const radio = document.createElement('input');
+         const label = document.createElement('label');
+         const name = type === 'boolean' ? 'boolean' : 'multiple';
+
+         radio.type = 'radio';
+         radio.name = 'type';
+         radio.id = name;
+
+         label.for = name;
+         label.textContent = this.toTitleCase(name);
+
+         fieldset.appendChild(radio);
+         fieldset.appendChild(label);
+      });
+
+      const options = document.querySelector('form.dialog');
+      options.appendChild(fieldset);
+   };
+
+   setAmount = (min, max) => {};
+
+   setStartButton = () => {
+      const button = document.createElement('button');
+      const type = 'button';
+
+      button.type = type;
+      button.classList.add('start');
+      button.classList.add('menu');
+      button.classList.add(type);
+      button.textContent = 'START GAME';
+
+      document.querySelector('form.dialog').appendChild(button);
    };
 
    hideOptions = () => {
