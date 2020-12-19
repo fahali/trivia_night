@@ -65,7 +65,6 @@ class Renderer {
       this.resetDetails();
       this.resetScore();
       this.resetCard();
-      this.resetCategories();
 
       document.querySelector('.end').style.display = 'none';
       document.querySelector('.gameover').textContent = '';

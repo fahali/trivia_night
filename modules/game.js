@@ -1,6 +1,7 @@
 class Game {
    constructor() {
       this.reset();
+      this.token = null;
    }
 
    getAllAnswers = () => {
@@ -31,8 +32,6 @@ class Game {
    getQuestion = () => this.getQuestionObject().question;
 
    getQuestionObject = () => this.questions[this.index];
-
-   incrementScore = () => this.score++;
 
    isGameOver = () => this.index === this.totalQuestions();
 

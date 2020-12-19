@@ -1,6 +1,9 @@
 const api = {
+   category_count: 'https://opentdb.com/api_count.php?',
    category_list: 'https://opentdb.com/api_category.php',
-   endpoint: 'https://opentdb.com/api.php?',
+   global_count: 'https://opentdb.com/api_count_global.php',
+   questions: 'https://opentdb.com/api.php?',
+   session: 'https://opentdb.com/api_token.php?command=',
 
    arguments: {
       amount: 'amount=',
@@ -8,7 +11,8 @@ const api = {
       encode: 'encode=',
       level: 'difficulty=',
       levels: ['easy', 'medium', 'hard'],
-      new_token: 'command=request',
+      request: 'request',
+      reset: 'reset',
       token: 'token=',
       type: 'type=',
       types: ['multiple', 'boolean']
@@ -25,7 +29,7 @@ const api = {
       no_results: 1, // no results, not enough questions to fulfill request
       invalid: 2, // invalid, request arguments are invalid
       token_not_found: 3, // token not found, session token does not exist
-      empty_token: 4 // empty token, session has exhausted all questions
+      token_empty: 4 // session has exhausted all questions
    }
 };
 
