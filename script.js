@@ -21,50 +21,10 @@ const start = url => {
 
             renderer.renderDetails(game.totalQuestions());
             renderer.renderScore();
-            renderer.renderQuestion(
-               game.currentQuestionString(),
-               game.currentAnswers()
-            );
+            renderer.renderQuestion(game.getQuestion(), game.getAllAnswers());
          }
       })
       .catch(error => console.log(error));
-};
-
-const setCategories = () => {
-   fetch(api.category_list)
-      .then(response => response.json())
-      .then(data => {
-         renderer.setCategories(
-            data.trivia_categories.sort((a, b) => {
-               const nameA = a.name.toLowerCase();
-               const nameB = b.name.toLowerCase();
-               return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-            })
-         );
-      })
-      .catch(error => console.log(error));
-};
-
-const buildForm = () => {
-   setCategories();
-   renderer.setLevels(api.arguments.levels);
-   renderer.setTypes(api.arguments.types);
-   renderer.setAmount(api.defaults.min_amount, api.defaults.max_amount);
-   renderer.setStartButton();
-};
-
-const processAnswer = answer => {
-   game.processAnswer(answer);
-   game.nextQuestion();
-   renderer.renderScore(game.score, game.index);
-
-   if (game.isGameOver()) {
-      renderer.renderGameover(game.score, game.totalQuestions());
-
-      return;
-   }
-
-   renderer.renderQuestion(game.currentQuestionString(), game.currentAnswers());
 };
 
 const formURL = () => {
@@ -93,6 +53,43 @@ const formURL = () => {
    return url;
 };
 
+const processAnswer = answer => {
+   game.processAnswer(answer);
+   game.nextQuestion();
+   renderer.renderScore(game.score, game.index);
+
+   if (game.isGameOver()) {
+      renderer.renderGameover(game.score, game.totalQuestions());
+
+      return;
+   }
+
+   renderer.renderQuestion(game.getQuestion(), game.getAllAnswers());
+};
+
+const setCategories = () => {
+   fetch(api.category_list)
+      .then(response => response.json())
+      .then(data => {
+         renderer.setCategories(
+            data.trivia_categories.sort((a, b) => {
+               const nameA = a.name.toLowerCase();
+               const nameB = b.name.toLowerCase();
+               return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+            })
+         );
+      })
+      .catch(error => console.log(error));
+};
+
+const buildForm = () => {
+   setCategories();
+   renderer.setLevels(api.arguments.levels);
+   renderer.setTypes(api.arguments.types);
+   renderer.setAmount(api.defaults.min_amount, api.defaults.max_amount);
+   renderer.setOptionsButtons();
+};
+
 document.body.addEventListener('click', event => {
    const target = event.target;
 
@@ -103,15 +100,28 @@ document.body.addEventListener('click', event => {
 
    if (target.classList.contains('start')) {
       renderer.hideOptions();
-
-      const url = formURL();
-
-      console.log(url);
-      start(url);
+      start(formURL());
    }
 
    if (target.classList.contains('answer')) {
       processAnswer(target.textContent);
+   }
+
+   if (target.tagName === 'OPTION') {
+      renderer.setCategoryConfig(target.textContent);
+   }
+
+   if (target.name === 'level') {
+      renderer.setLevelConfig(target.id);
+   }
+
+   if (target.name === 'type') {
+      renderer.setTypeConfig(target.id);
+   }
+
+   if (target.classList.contains('reset')) {
+      event.preventDefault();
+      renderer.resetOptions();
    }
 });
 

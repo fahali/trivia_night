@@ -30,7 +30,7 @@ body {
    border-radius: 0.5rem;
    padding: 1rem;
    box-shadow: 0 3px 2px 2px var(--inactive-shadow);
-   transition: box-shadow 0.2s linear, transform 0.1s linear;
+   transition: all 0.2s linear, transform 0.1s linear;
 }
 
 .button:hover {
@@ -172,15 +172,30 @@ details > * {
    background-color: var(--main-color);
    font-size: 2rem;
    position: fixed;
-   top: 25%;
    border-radius: 1rem;
    display: flex;
    flex-direction: column;
-   align-items: center;
 }
 
-form.dialog > * {
-   margin: 1rem 3rem;
+form.dialog {
+   width: 60%;
+   top: 5%;
+   text-align: justify;
+}
+
+form.dialog > :not(.flavor, .start) {
+   margin: 1rem 4rem;
+}
+
+.flavor {
+   font-size: 1.25rem;
+   margin: 3rem 4rem;
+}
+
+.category,
+.amount {
+   display: flex;
+   justify-content: space-between;
 }
 
 #categories,
@@ -189,12 +204,69 @@ form.dialog > * {
    font-size: 1rem;
 }
 
+.amount {
+   align-items: center;
+}
+
+fieldset {
+   border-radius: 1rem;
+   display: flex;
+   justify-content: space-between;
+}
+
+.category > label,
+.amount > label,
+legend {
+   background-color: var(--modal-bg-color);
+   border-radius: 0.5rem;
+   padding: 0.5rem 1rem;
+}
+
+.radio > input {
+   appearance: none;
+   width: 1.4rem;
+   height: 1.4rem;
+   margin-right: 0.5rem;
+   border: 3px solid var(--fg-color);
+   border-radius: 50%;
+   transition: all 0.2s linear;
+}
+
+.radio > input:checked {
+   border: 6px solid var(--accent-color);
+}
+
+.options-buttons {
+   display: flex;
+   justify-content: space-evenly;
+}
+
+.options-buttons > button {
+   margin: 1rem 0 3rem 0;
+}
+
+.reset {
+   background-color: var(--bg-color);
+   color: var(--accent-color);
+   box-shadow: 0 3px 2px 2px var(--accent-color);
+}
+
+.reset:hover {
+   color: var(--fg-color);
+}
+
 section.dialog {
+   top: 25%;
+   align-items: center;
    justify-content: space-around;
 }
 
-section.dialog > * {
+section.dialog > p {
    margin: 3rem;
+}
+
+section.dialog > button {
+   margin-bottom: 3rem;
 }
 
 .gameover {

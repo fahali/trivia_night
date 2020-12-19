@@ -3,32 +3,7 @@ class Game {
       this.reset();
    }
 
-   reset = () => {
-      this.index = 0;
-      this.score = 0;
-      this.questions = null;
-   };
-
-   nextQuestion = () => this.index++;
-
-   incrementScore = () => this.score++;
-
-   totalQuestions = () => this.questions.length;
-
-   isGameOver = () => this.index === this.totalQuestions();
-
-   currentQuestion = () => this.questions[this.index];
-
-   correctAnswerString = () => this.currentQuestion().correct_string;
-
-   processAnswer = answer => {
-      this.score =
-         answer === this.correctAnswerString() ? this.score + 1 : this.score;
-   };
-
-   currentQuestionString = () => this.currentQuestion().question_string;
-
-   currentAnswers = () => {
+   getAllAnswers = () => {
       // Fisher - Yates shuffle algorithm written in Javascript
       // https://stackoverflow.com/a/6274381
       const shuffle = array => {
@@ -42,21 +17,45 @@ class Game {
          return array;
       };
 
-      return this.currentQuestion().boolean
+      return this.getQuestionObject().boolean
          ? ['True', 'False']
          : shuffle(
-              [this.correctAnswerString()].concat(
-                 this.currentQuestion().incorrect_strings
+              [this.getCorrectAnswer()].concat(
+                 this.getQuestionObject().incorrect_answers
               )
            );
    };
 
+   getCorrectAnswer = () => this.getQuestionObject().correct_answer;
+
+   getQuestion = () => this.getQuestionObject().question;
+
+   getQuestionObject = () => this.questions[this.index];
+
+   incrementScore = () => this.score++;
+
+   isGameOver = () => this.index === this.totalQuestions();
+
+   nextQuestion = () => this.index++;
+
+   processAnswer = answer => {
+      this.score =
+         answer === this.getCorrectAnswer() ? this.score + 1 : this.score;
+   };
+
+   reset = () => {
+      this.index = 0;
+      this.score = 0;
+      this.questions = null;
+   };
+
    setQuestions = questions => {
       this.questions = questions.map(question => {
-         question.question_string = decodeURIComponent(question.question);
-         question.correct_string = decodeURIComponent(question.correct_answer);
+         question.category = decodeURIComponent(question.category);
+         question.question = decodeURIComponent(question.question);
+         question.correct_answer = decodeURIComponent(question.correct_answer);
 
-         question.incorrect_strings = question.incorrect_answers.map(answer => {
+         question.incorrect_answers = question.incorrect_answers.map(answer => {
             return decodeURIComponent(answer);
          });
 
@@ -66,6 +65,8 @@ class Game {
          return question;
       });
    };
+
+   totalQuestions = () => this.questions.length;
 }
 
 export default Game;
