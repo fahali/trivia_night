@@ -21,7 +21,7 @@ class Game {
          return array;
       };
 
-      return this.getQuestionObject().boolean
+      return this.getQuestionObject().type === 'boolean'
          ? ['True', 'False']
          : shuffle(
               [this.getCorrectAnswer()].concat(
@@ -51,7 +51,7 @@ class Game {
    nextQuestion = () => this.index++;
 
    processAnswer = (answer, time) => {
-      const timeScore = this.timeLimit - time; // * this.weightFactor;
+      const timeScore = this.timeLimit - time;
       const correct = answer === this.getCorrectAnswer();
       // if the user has elapsed the time limit or answered incorrectly
       // they don't get any points
@@ -75,9 +75,6 @@ class Game {
          question.incorrect_answers = question.incorrect_answers.map(answer => {
             return decodeURIComponent(answer);
          });
-
-         question.boolean =
-            decodeURIComponent(question.type) === 'boolean' ? true : false;
 
          return question;
       });

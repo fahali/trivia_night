@@ -101,6 +101,10 @@ details:active {
    box-shadow: 0 0 2px 2px var(--active-shadow);
 }
 
+details > summary::-webkit-details-marker {
+   display: none;
+}
+
 details > *,
 .quick-score,
 .detailed-score {
@@ -145,6 +149,8 @@ details > * {
    font-family: var(--content-font);
    width: 100%;
    margin: 5rem;
+   border-radius: 1rem;
+   padding: 1rem 1rem 4rem 1rem;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -193,19 +199,19 @@ form.dialog {
    text-align: justify;
 }
 
-form.dialog > :not(.flavor, .start) {
+form.dialog > * {
    margin: 1rem 4rem;
 }
 
 .flavor {
    font-size: 1.25rem;
-   margin: 3rem 4rem;
+   padding: 2rem 0.5rem;
 }
 
 .category,
 .amount {
    display: flex;
-   justify-content: space-between;
+   justify-content: space-evenly;
 }
 
 #categories,

@@ -71,7 +71,6 @@ const requestToken = async url => {
    try {
       const response = await fetch(url);
       const data = await response.json();
-      // TODO - handle other response codes (failures)
       if (data.response_code === api.response_codes.success) {
          game.token = data.token;
       }
@@ -85,8 +84,6 @@ const reset = () => {
    renderer.reset();
 };
 
-// TODO - this might need refactoring
-// consider making it async?
 const setCategories = () => {
    fetch(api.category_list)
       .then(response => response.json())
@@ -114,18 +111,28 @@ const start = url => {
             renderer.renderDetails(game.getTotalQuestions());
             renderGame();
          }
+         // RESPONSE 1 - NO RESULTS
+         else if (data.response_code === api.response_codes.no_results) {
+            // for when there aren't enough questions to serve the request
+         }
+         // RESPONSE 3 - TOKEN NOT FOUND
+         else if (data.response_code === api.response_codes.token_not_found) {
+            // for when the session token expires after 6 hours
+            game.token = null;
+            startWithToken();
+         }
          // RESPONSE 4 - SESSION TOKEN EXHAUSTED ALL QUESTIONS
          else if (data.response_code === api.response_codes.token_empty) {
             // TODO - alert user they finished all questions
             // reset the token in the background
             // then just start() as normal
-            startWithResetToken();
+            startWithToken();
          }
       })
       .catch(error => console.log(error));
 };
 
-const startWithResetToken = () => {
+const startWithToken = () => {
    requestToken(formTokenURL()).then(() => start(formQuestionsURL()));
 };
 
@@ -141,7 +148,7 @@ document.body.addEventListener('click', event => {
       renderer.hideOptions();
 
       if (game.token === null) {
-         startWithResetToken();
+         startWithToken();
       } else {
          start(formQuestionsURL());
       }
@@ -170,6 +177,7 @@ document.body.addEventListener('click', event => {
    if (target.classList.contains('reset')) {
       event.preventDefault();
       renderer.resetOptions();
+      game.timed = false;
    }
 });
 
@@ -182,5 +190,4 @@ const buildForm = () => {
    renderer.setOptionsButtons();
 };
 
-// TODO - figure out a way to do this right after document is finished loading
 buildForm();
