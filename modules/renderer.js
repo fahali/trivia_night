@@ -1,5 +1,5 @@
 class Renderer {
-   UPDATE_INTERVAL = 1000;
+   UPDATE_INTERVAL = 100;
 
    getTypeString = type => {
       return type === 'boolean' ? 'True / False' : 'Multiple choice';
@@ -63,11 +63,8 @@ class Renderer {
       document.querySelector('.answered').textContent = answered;
    };
 
-   renderTime = () => {
-      // console.log('render');
-   };
-
    reset = () => {
+      this.resetTimer();
       this.resetDetails();
       this.resetScore();
       this.resetCard();
@@ -111,6 +108,14 @@ class Renderer {
    resetScore = () => {
       document.querySelector('.correct').textContent = '';
       document.querySelector('.answered').textContent = '';
+   };
+
+   resetTimer = () => {
+      clearInterval(this.timer);
+
+      const timer = document.querySelector('.timer');
+      timer.style.visibility = 'hidden';
+      timer.style.width = '100%';
    };
 
    setAmount = (min, max) => {
@@ -249,18 +254,22 @@ class Renderer {
    };
 
    startTimer = () => {
-      this.elapsedTime = 0;
+      this.startTime = performance.now();
+      this.elapsedTime = 300;
       this.timer = setInterval(() => {
-         this.elapsedTime++;
-         this.renderTime();
+         document.querySelector('.timer').style.width = `${
+            --this.elapsedTime / 3
+         }%`;
       }, this.UPDATE_INTERVAL);
+
+      document.querySelector('.timer').style.visibility = 'visible';
    };
 
    stopTimer = () => {
-      clearInterval(this.timer);
-      // console.log(`timer: ${this.timer}
-      // time: ${this.elapsedTime}`);
-      return this.elapsedTime;
+      this.endTime = performance.now();
+      this.resetTimer();
+
+      return Math.floor((this.endTime - this.startTime) / 1000);
    };
 
    setTypeConfig = type => {

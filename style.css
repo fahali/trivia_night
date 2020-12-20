@@ -74,6 +74,16 @@ main {
    align-items: center;
 }
 
+.timer {
+   visibility: hidden;
+   background-color: var(--accent-color);
+   width: 100%;
+   height: 3px;
+   margin: 2rem;
+   border-radius: 1px;
+   transition: width 0.1s linear;
+}
+
 details {
    visibility: hidden;
    width: 100%;
@@ -216,6 +226,7 @@ fieldset {
 
 .category > label,
 .amount > label,
+.timed > label,
 legend {
    background-color: var(--modal-bg-color);
    border-radius: 0.5rem;
