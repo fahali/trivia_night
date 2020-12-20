@@ -24,7 +24,8 @@ body {
 
 .button,
 .radio > input,
-.timed > input {
+.timed > input,
+details > summary {
    outline-style: none;
 }
 
@@ -39,6 +40,7 @@ body {
    transition: all 0.2s linear, transform 0.1s linear;
 }
 
+.button:focus,
 .button:hover {
    box-shadow: 0 3px 2px 2px var(--active-shadow);
 }
@@ -99,12 +101,9 @@ details {
    transition: box-shadow 0.1s ease-in-out;
 }
 
+details:focus-within,
 details:hover {
    box-shadow: 0 0 2px 2px var(--accent-color);
-}
-
-details:active {
-   box-shadow: 0 0 2px 2px var(--active-shadow);
 }
 
 details > summary::-webkit-details-marker {
@@ -188,20 +187,20 @@ details > * {
    left: 0;
    display: none;
    justify-content: center;
+   align-items: center;
+   overflow: auto;
 }
 
 .dialog {
    background-color: var(--main-color);
    font-size: 2rem;
-   position: fixed;
    border-radius: 1rem;
    display: flex;
    flex-direction: column;
 }
 
 form.dialog {
-   width: 60%;
-   top: 5%;
+   max-width: 875px;
    text-align: justify;
 }
 
@@ -297,9 +296,8 @@ legend {
 }
 
 section.dialog {
-   top: 25%;
-   align-items: center;
    justify-content: space-around;
+   align-items: center;
 }
 
 section.dialog > p {

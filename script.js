@@ -84,21 +84,6 @@ const reset = () => {
    renderer.reset();
 };
 
-const setCategories = () => {
-   fetch(api.category_list)
-      .then(response => response.json())
-      .then(data => {
-         renderer.setCategories(
-            data.trivia_categories.sort((a, b) => {
-               const nameA = a.name.toLowerCase();
-               const nameB = b.name.toLowerCase();
-               return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-            })
-         );
-      })
-      .catch(error => console.log(error));
-};
-
 const start = url => {
    fetch(url)
       .then(response => response.json())
@@ -181,13 +166,24 @@ document.body.addEventListener('click', event => {
    }
 });
 
-const buildForm = () => {
-   setCategories();
+(async () => {
+   try {
+      const response = await fetch(api.category_list);
+      const data = await response.json();
+      renderer.setCategories(
+         data.trivia_categories.sort((a, b) => {
+            const nameA = a.name.toLowerCase();
+            const nameB = b.name.toLowerCase();
+            return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+         })
+      );
+   } catch (error) {
+      console.log(error);
+   }
+
    renderer.setLevels(api.arguments.levels);
    renderer.setTypes(api.arguments.types);
    renderer.setAmount(api.defaults.min_amount, api.defaults.max_amount);
    renderer.setTimed();
    renderer.setOptionsButtons();
-};
-
-buildForm();
+})();
