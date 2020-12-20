@@ -22,6 +22,36 @@ body {
    align-items: center;
 }
 
+@keyframes fade-in {
+   from {
+      opacity: 0;
+   }
+
+   to {
+      opacity: 100%;
+   }
+}
+
+header {
+   background-color: var(--main-color);
+   width: 97%;
+   margin: 1rem;
+   border-radius: 1rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   animation: fade-in 1s;
+}
+
+header > * {
+   margin: 1rem 2rem;
+   padding: 1rem;
+}
+
+.title {
+   font-size: 3.6rem;
+}
+
 .button,
 .radio > input,
 .timed > input,
@@ -48,25 +78,6 @@ details > summary {
 .button:active {
    box-shadow: none;
    transform: translateY(3px);
-}
-
-header {
-   background-color: var(--main-color);
-   width: 97%;
-   margin: 1rem;
-   border-radius: 1rem;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-}
-
-header > * {
-   margin: 1rem 2rem;
-   padding: 1rem;
-}
-
-.title {
-   font-size: 3.6rem;
 }
 
 .menu {
@@ -156,10 +167,12 @@ details > * {
    margin: 5rem;
    border-radius: 1rem;
    padding: 1rem 1rem 4rem 1rem;
+   position: relative;
    display: flex;
    flex-direction: column;
    align-items: center;
    text-align: center;
+   animation: fade-in 1s;
 }
 
 .question {
@@ -202,6 +215,7 @@ details > * {
 form.dialog {
    max-width: 875px;
    text-align: justify;
+   animation: fade-in 0.5s;
 }
 
 form.dialog > * {
@@ -298,6 +312,7 @@ legend {
 section.dialog {
    justify-content: space-around;
    align-items: center;
+   animation: fade-in 1s;
 }
 
 section.dialog > p {

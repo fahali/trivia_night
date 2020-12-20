@@ -64,7 +64,7 @@ const renderGame = () => {
       return;
    }
 
-   renderer.renderQuestion(game.getQuestion(), game.getAllAnswers());
+   renderer.renderCard(game.getQuestion(), game.getAllAnswers());
 };
 
 const requestToken = async url => {
@@ -88,7 +88,6 @@ const start = url => {
    fetch(url)
       .then(response => response.json())
       .then(data => {
-         // TODO - handle other response codes (failures)
          // console.log(data);
          // RESPONSE 0 - SUCCESS
          if (data.response_code === api.response_codes.success) {
@@ -96,17 +95,21 @@ const start = url => {
             renderer.renderDetails(game.getTotalQuestions());
             renderGame();
          }
+
          // RESPONSE 1 - NO RESULTS
-         else if (data.response_code === api.response_codes.no_results) {
-            // for when there aren't enough questions to serve the request
-         }
+         // Because we use tokens, we just get served RESPONSE CODE 4
+
+         // RESPONSE 2 - INVALID PARAMETER
+         // Because we handle API calls, we will never get this
+
          // RESPONSE 3 - TOKEN NOT FOUND
+         // For when the session token expires after 6 hours
          else if (data.response_code === api.response_codes.token_not_found) {
-            // for when the session token expires after 6 hours
             game.token = null;
             startWithToken();
          }
-         // RESPONSE 4 - SESSION TOKEN EXHAUSTED ALL QUESTIONS
+
+         // RESPONSE 4 - TOKEN EMPTY
          else if (data.response_code === api.response_codes.token_empty) {
             // TODO - alert user they finished all questions
             // reset the token in the background

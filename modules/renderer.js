@@ -1,33 +1,78 @@
 class Renderer {
    /* CONSTANTS */
-   UPDATE_INTERVAL = 100;
    EMPTY = '';
+   UPDATE_INTERVAL = 100;
 
    /* QUERY SELECTORS */
-   AMOUNT_QS = '#amount';
-   ANSWER_QS = 'answer';
-   ANSWERED_QS = '.answered';
-   ANSWEREDL_QS = '.answered-label';
-   ANSWERS_QS = '.answers';
-   BASIC_QS = '.basic-config';
-   BUTTON_QS = 'button';
-   CATEGORIES_QS = '#categories';
-   CORRECT_QS = '.correct';
-   CORRECTL_QS = '.correct-label';
-   DETAILS_QS = 'details';
-   END_QS = '.end';
-   EXTENDED_QS = '.extended-config';
-   FORM_DIALOG_QS = 'form.dialog';
-   GAMEOVER_QS = '.gameover';
-   MENU_QS = 'menu';
-   OPTIONS_QS = '.options';
-   OPTIONS_BUTTONS_QS = 'options-buttons';
-   RADIO_QS = '.radio';
-   QUESTION_QS = '.question';
-   START_QS = 'start';
-   TIMED_QS = '#timed';
-   TIMER_QS = '.timer';
+   CLS = '.';
+   ID = '#';
 
+   /* CLASSES */
+   ANSWER_CLS = 'answer';
+   ANSWERED_CLS = 'answered';
+   ANSWERED_LABEL_CLS = 'answered-label';
+   ANSWERS_CLS = 'answers';
+   BASIC_CLS = 'basic-config';
+   BUTTON_CLS = 'button';
+   CARD_CLS = 'card';
+   CORRECT_CLS = 'correct';
+   CORRECT_LABEL_CLS = 'correct-label';
+   DIALOG_CLS = 'dialog';
+   END_CLS = 'end';
+   EXTENDED_CLS = 'extended-config';
+   GAMEOVER_CLS = 'gameover';
+   MENU_CLS = 'menu';
+   OPTIONS_CLS = 'options';
+   OPTIONS_BUTTONS_CLS = 'options-buttons';
+   RADIO_CLS = 'radio';
+   RESET_CLS = 'reset';
+   QUESTION_CLS = 'question';
+   START_CLS = 'start';
+   TIMER_CLS = 'timer';
+
+   /* IDS */
+   AMOUNT_ID = 'amount';
+   CATEGORIES_ID = 'categories';
+   TIMED_ID = 'timed';
+
+   /* TAGS */
+   DETAILS_TAG = 'details';
+   FORM_TAG = 'form';
+   MAIN_TAG = 'main';
+
+   /* QUERY SELECTORS - CLASS */
+   ANSWER_QS = this.CLS.concat(this.ANSWER_CLS);
+   ANSWERED_QS = this.CLS.concat(this.ANSWERED_CLS);
+   ANSWERED_LABEL_QS = this.CLS.concat(this.ANSWERED_LABEL_CLS);
+   ANSWERS_QS = this.CLS.concat(this.ANSWERS_CLS);
+   BASIC_QS = this.CLS.concat(this.BASIC_CLS);
+   BUTTON_QS = this.CLS.concat(this.BUTTON_CLS);
+   CARD_QS = this.CLS.concat(this.CARD_CLS);
+   CORRECT_QS = this.CLS.concat(this.CORRECT_CLS);
+   CORRECT_LABEL_QS = this.CLS.concat(this.CORRECT_LABEL_CLS);
+   DIALOG_QS = this.CLS.concat(this.DIALOG_CLS);
+   END_QS = this.CLS.concat(this.END_CLS);
+   EXTENDED_QS = this.CLS.concat(this.EXTENDED_CLS);
+   GAMEOVER_QS = this.CLS.concat(this.GAMEOVER_CLS);
+   MENU_QS = this.CLS.concat(this.MENU_CLS);
+   OPTIONS_QS = this.CLS.concat(this.OPTIONS_CLS);
+   OPTIONS_BUTTONS_QS = this.CLS.concat(this.OPTIONS_BUTTONS_CLS);
+   RADIO_QS = this.CLS.concat(this.RADIO_CLS);
+   RESET_QS = this.CLS.concat(this.RESET_CLS);
+   QUESTION_QS = this.CLS.concat(this.QUESTION_CLS);
+   START_QS = this.CLS.concat(this.START_CLS);
+   TIMER_QS = this.CLS.concat(this.TIMER_CLS);
+
+   /* QUERY SELECTORS - ID */
+   AMOUNT_QS = this.ID.concat(this.AMOUNT_ID);
+   CATEGORIES_QS = this.ID.concat(this.CATEGORIES_ID);
+   TIMED_QS = this.ID.concat(this.TIMED_ID);
+
+   /* QUERY SELECTORS - TAG */
+   FORM_DIALOG_QS = this.FORM_TAG + this.CLS + this.DIALOG_CLS;
+   /* END QUERY SELECTORS */
+
+   /* FUNCTIONS */
    getTypeString = type => {
       return type === 'boolean' ? 'True / False' : 'Multiple choice';
    };
@@ -48,10 +93,10 @@ class Renderer {
       document.querySelector(this.BASIC_QS).textContent = basic;
       document.querySelector(this.EXTENDED_QS).textContent = extended;
 
-      document.querySelector(this.CORRECTL_QS).textContent = 'correct:';
-      document.querySelector(this.ANSWEREDL_QS).textContent = 'answered:';
+      document.querySelector(this.CORRECT_LABEL_QS).textContent = 'correct:';
+      document.querySelector(this.ANSWERED_LABEL_QS).textContent = 'answered:';
 
-      document.querySelector(this.DETAILS_QS).style.visibility = 'visible';
+      document.querySelector(this.DETAILS_TAG).style.visibility = 'visible';
    };
 
    renderGameover = (score, total) => {
@@ -68,20 +113,32 @@ class Renderer {
       document.querySelector(this.END_QS).style.display = 'flex';
    };
 
-   renderQuestion = (question, answers) => {
+   renderCard = (question, answers) => {
       this.resetCard();
 
-      document.querySelector(this.QUESTION_QS).textContent = question;
+      const p = document.createElement('p');
+      p.classList.add(this.QUESTION_CLS);
+      p.textContent = question;
+
+      const section = document.createElement('section');
+      section.classList.add(this.ANSWERS_CLS);
 
       answers.forEach(answer => {
          const button = document.createElement('button');
 
-         button.classList.add(this.ANSWER_QS);
-         button.classList.add(this.BUTTON_QS);
+         button.classList.add(this.ANSWER_CLS);
+         button.classList.add(this.BUTTON_CLS);
          button.textContent = answer;
 
-         document.querySelector(this.ANSWERS_QS).appendChild(button);
+         section.appendChild(button);
       });
+
+      const card = document.createElement('section');
+      card.classList.add(this.CARD_CLS);
+      card.appendChild(p);
+      card.appendChild(section);
+
+      document.querySelector(this.MAIN_TAG).appendChild(card);
 
       this.startTimer();
    };
@@ -102,8 +159,10 @@ class Renderer {
    };
 
    resetCard = () => {
-      document.querySelector(this.QUESTION_QS).textContent = this.EMPTY;
-      document.querySelector(this.ANSWERS_QS).textContent = this.EMPTY;
+      const card = document.querySelector(this.CARD_QS);
+      if (card) {
+         document.querySelector(this.MAIN_TAG).removeChild(card);
+      }
    };
 
    resetCategories = () => {
@@ -111,13 +170,13 @@ class Renderer {
    };
 
    resetDetails = () => {
-      document.querySelector(this.DETAILS_QS).style.visibility = 'hidden';
+      document.querySelector(this.DETAILS_TAG).style.visibility = 'hidden';
 
       document.querySelector(this.BASIC_QS).textContent = this.EMPTY;
       document.querySelector(this.EXTENDED_QS).textContent = this.EMPTY;
 
-      document.querySelector(this.CORRECTL_QS).textContent = this.EMPTY;
-      document.querySelector(this.ANSWEREDL_QS).textContent = this.EMPTY;
+      document.querySelector(this.CORRECT_LABEL_QS).textContent = this.EMPTY;
+      document.querySelector(this.ANSWERED_LABEL_QS).textContent = this.EMPTY;
    };
 
    resetOptions = () => {
@@ -150,7 +209,7 @@ class Renderer {
    setAmount = (min, max) => {
       const label = document.createElement('label');
       const input = document.createElement('input');
-      const id = 'amount'; // if this changes, change AMOUNT_QS as well
+      const id = this.AMOUNT_ID;
 
       label.setAttribute('for', id);
       label.textContent = 'NUMBER (10 - 50)';
@@ -222,7 +281,7 @@ class Renderer {
          label.textContent = this.toTitleCase(level);
 
          const section = document.createElement('section');
-         section.classList.add('radio'); // if this changes, change RADIO_QS
+         section.classList.add(this.RADIO_CLS);
          section.appendChild(radio);
          section.appendChild(label);
 
@@ -234,25 +293,24 @@ class Renderer {
 
    setOptionsButtons = () => {
       const reset = document.createElement('button');
-      const rtype = 'reset';
 
       const start = document.createElement('button');
-      const btype = 'button';
+      const type = 'button';
 
-      reset.type = rtype;
-      reset.classList.add(rtype);
-      reset.classList.add(this.MENU_QS);
-      reset.classList.add(btype);
+      reset.type = type;
+      reset.classList.add(this.RESET_CLS);
+      reset.classList.add(this.MENU_CLS);
+      reset.classList.add(this.BUTTON_CLS);
       reset.textContent = 'RESET';
 
-      start.type = btype;
-      start.classList.add(this.START_QS);
-      start.classList.add(this.MENU_QS);
-      start.classList.add(btype);
+      start.type = type;
+      start.classList.add(this.START_CLS);
+      start.classList.add(this.MENU_CLS);
+      start.classList.add(this.BUTTON_CLS);
       start.textContent = 'START GAME';
 
       const section = document.createElement('section');
-      section.classList.add(this.OPTIONS_BUTTONS_QS);
+      section.classList.add(this.OPTIONS_BUTTONS_CLS);
       section.appendChild(reset);
       section.appendChild(start);
 
@@ -262,7 +320,7 @@ class Renderer {
    setTimed = () => {
       const input = document.createElement('input');
       const label = document.createElement('label');
-      const id = 'timed'; // if this changes, changed TIMED_QS
+      const id = this.TIMED_ID;
 
       input.type = 'checkbox';
       input.id = id;
@@ -321,7 +379,7 @@ class Renderer {
          label.textContent = text;
 
          const section = document.createElement('section');
-         section.classList.add('radio'); // if this changes, change RADIO_QS
+         section.classList.add(this.RADIO_CLS);
          section.appendChild(radio);
          section.appendChild(label);
 
