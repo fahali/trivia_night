@@ -22,6 +22,12 @@ body {
    align-items: center;
 }
 
+.button,
+.radio > input,
+.timed > input {
+   outline-style: none;
+}
+
 .button {
    background-color: var(--accent-color);
    color: var(--fg-color);
