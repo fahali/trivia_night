@@ -44,12 +44,13 @@ const formQuestionsURL = () => {
    amount = amount === '' ? api.defaults.min_amount : amount;
    url += and + api.arguments.amount + amount;
 
-   console.log(url);
+   // console.log(url);
    return url;
 };
 
 const processAnswer = answer => {
-   game.processAnswer(answer);
+   const time = renderer.stopTimer();
+   game.processAnswer(answer, time);
    game.nextQuestion();
    renderGame();
 };
@@ -58,7 +59,7 @@ const renderGame = () => {
    renderer.renderScore(game.score, game.index);
 
    if (game.isGameOver()) {
-      renderer.renderGameover(game.score, game.totalQuestions());
+      renderer.renderGameover(game.getFinalScore(), game.getTotalScore());
 
       return;
    }
@@ -106,11 +107,11 @@ const start = url => {
       .then(response => response.json())
       .then(data => {
          // TODO - handle other response codes (failures)
-         console.log(data);
+         // console.log(data);
          // RESPONSE 0 - SUCCESS
          if (data.response_code === api.response_codes.success) {
             game.setQuestions(data.results);
-            renderer.renderDetails(game.totalQuestions());
+            renderer.renderDetails(game.getTotalQuestions());
             renderGame();
          }
          // RESPONSE 4 - SESSION TOKEN EXHAUSTED ALL QUESTIONS
@@ -162,6 +163,10 @@ document.body.addEventListener('click', event => {
       renderer.setTypeConfig(target.id);
    }
 
+   if (target.name === 'timed') {
+      game.timed = target.checked;
+   }
+
    if (target.classList.contains('reset')) {
       event.preventDefault();
       renderer.resetOptions();
@@ -173,7 +178,9 @@ const buildForm = () => {
    renderer.setLevels(api.arguments.levels);
    renderer.setTypes(api.arguments.types);
    renderer.setAmount(api.defaults.min_amount, api.defaults.max_amount);
+   renderer.setTimed();
    renderer.setOptionsButtons();
 };
 
+// TODO - figure out a way to do this right after document is finished loading
 buildForm();

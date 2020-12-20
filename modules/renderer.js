@@ -1,4 +1,6 @@
 class Renderer {
+   UPDATE_INTERVAL = 1000;
+
    getTypeString = type => {
       return type === 'boolean' ? 'True / False' : 'Multiple choice';
    };
@@ -28,9 +30,7 @@ class Renderer {
       const gameover = document.querySelector('.gameover');
 
       gameover.appendChild(
-         document.createTextNode(
-            `You scored ${score} out of ${total} questions!`
-         )
+         document.createTextNode(`You scored ${score} out of ${total}!`)
       );
 
       gameover.appendChild(document.createElement('br'));
@@ -54,11 +54,17 @@ class Renderer {
 
          document.querySelector('.answers').appendChild(button);
       });
+
+      this.startTimer();
    };
 
    renderScore = (score = 0, answered = 0) => {
       document.querySelector('.correct').textContent = score;
       document.querySelector('.answered').textContent = answered;
+   };
+
+   renderTime = () => {
+      // console.log('render');
    };
 
    reset = () => {
@@ -123,13 +129,17 @@ class Renderer {
       input.placeholder = 10;
 
       const section = document.createElement('section');
-      section.classList.add('amount');
+      section.classList.add(id);
       section.appendChild(label);
       section.appendChild(input);
 
       document.querySelector('form.dialog').appendChild(section);
    };
 
+   // TODO
+   // As we make categories, we should also record them to the game object
+   // perhaps with a callback
+   // so we can keep track of how many questions we can still serve?
    setCategories = categories => {
       // A quick and easy way to have placeholder text for the dropdown menu
       // https://stackoverflow.com/a/30525521/1987724
@@ -216,6 +226,41 @@ class Renderer {
       section.appendChild(start);
 
       document.querySelector('form.dialog').appendChild(section);
+   };
+
+   setTimed = () => {
+      const input = document.createElement('input');
+      const label = document.createElement('label');
+      const id = 'timed';
+
+      input.type = 'checkbox';
+      input.id = id;
+      input.name = id;
+
+      label.setAttribute('for', id);
+      label.textContent = id.toUpperCase();
+
+      const section = document.createElement('section');
+      section.classList.add(id);
+      section.appendChild(input);
+      section.appendChild(label);
+
+      document.querySelector('form.dialog').appendChild(section);
+   };
+
+   startTimer = () => {
+      this.elapsedTime = 0;
+      this.timer = setInterval(() => {
+         this.elapsedTime++;
+         this.renderTime();
+      }, this.UPDATE_INTERVAL);
+   };
+
+   stopTimer = () => {
+      clearInterval(this.timer);
+      // console.log(`timer: ${this.timer}
+      // time: ${this.elapsedTime}`);
+      return this.elapsedTime;
    };
 
    setTypeConfig = type => {

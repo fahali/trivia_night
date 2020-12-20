@@ -222,18 +222,36 @@ legend {
    padding: 0.5rem 1rem;
 }
 
-.radio > input {
+.radio > input,
+.timed > input {
    appearance: none;
    width: 1.4rem;
    height: 1.4rem;
    margin-right: 0.5rem;
    border: 3px solid var(--fg-color);
-   border-radius: 50%;
    transition: all 0.2s linear;
 }
 
+.radio > input {
+   border-radius: 50%;
+}
+
 .radio > input:checked {
-   border: 6px solid var(--accent-color);
+   border: 11px solid var(--accent-color);
+}
+
+.timed {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.timed > input {
+   border-radius: 25%;
+}
+
+.timed > input:checked {
+   border: 11px solid var(--accent-color);
 }
 
 .options-buttons {
