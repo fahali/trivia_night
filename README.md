@@ -29,7 +29,7 @@ TODO
 | Setup: GitHub Pages, Trello, README.md |    H     |     2 hrs      |     1 hrs     |    X hrs    |
 | Basic game loop                        |    H     |     4 hrs      |     3 hrs     |    X hrs    |
 | Basic styling                          |    H     |     4 hrs      |     3 hrs     |    X hrs    |
-| Bug fixing / refactoring               |    H     |     8 hrs      |   10.5 hrs    |    X hrs    |
+| Bug fixing / refactoring               |    H     |     8 hrs      |   14.5 hrs    |    X hrs    |
 | Advanced API features                  |    M     |     4 hrs      |     9 hrs     |    X hrs    |
 | Timed scoring                          |    M     |     4 hrs      |     6 hrs     |    X hrs    |
 | Quick Game mode                        |    M     |     2 hrs      |     X hrs     |    X hrs    |
@@ -38,7 +38,7 @@ TODO
 | Light/dark theme                       |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | Responsive design                      |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | jQuery re-write                        |    L     |     8 hrs      |     X hrs     |    X hrs    |
-| Total                                  |    X     |     60 hrs     |   32.5 hrs    |    X hrs    |
+| Total                                  |    X     |     60 hrs     |   36.5 hrs    |    X hrs    |
 
 ## Project Schedule
 
