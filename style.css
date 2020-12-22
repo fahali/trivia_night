@@ -12,6 +12,8 @@
    --fg-color: rgba(252, 236, 214, 1);
    --main-color: rgba(8, 40, 96, 1);
    --accent-color: rgba(252, 55, 91, 1);
+   --select-color: rgba(8, 8, 8, 1);
+   --inactive-shadow: rgba(0, 0, 0, 0.9);
    --active-shadow: rgba(247, 217, 175, 1);
    --inactive-shadow: rgba(0, 0, 0, 0.9);
    --main-font: 'Fredoka One', cursive;
@@ -61,7 +63,7 @@ header > * {
 .button,
 .radio > input,
 .timed > input,
-details > summary {
+.details > .summary {
    outline-style: none;
 }
 
@@ -109,7 +111,7 @@ main {
    transition: width 0.1s linear;
 }
 
-details {
+.details {
    visibility: hidden;
    width: 100%;
    border-radius: 0.5rem;
@@ -118,22 +120,13 @@ details {
    transition: box-shadow 0.1s ease-in-out;
 }
 
-details:focus-within,
-details:hover {
-   box-shadow: 0 0 2px 2px var(--accent-color);
-}
-
-details > summary::-webkit-details-marker {
-   display: none;
-}
-
-details > *,
+.details > *,
 .quick-score,
 .detailed-score {
    display: flex;
 }
 
-details > * {
+.details > * {
    justify-content: space-between;
 }
 
@@ -240,74 +233,18 @@ form.dialog > * {
 
 .category {
    justify-content: space-evenly;
-}
-
-/* Custom styling for dropdown list select */
-/* https://moderncss.dev/custom-select-styles-with-pure-css/ */
-.select {
-   background-color: black;
-   font-size: 1.25rem;
-   width: 100%;
-   min-width: 18ch;
-   max-width: 36ch;
-   position: relative;
-   border: 2px solid var(--modal-bg-color);
-   border-radius: 0.25em;
-   padding: 0.75em 0.5em;
-   cursor: pointer;
-   line-height: 1.1;
-   display: grid;
-   grid-template-areas: 'select';
    align-items: center;
 }
 
-.select::after {
-   content: '';
-   width: 0.8em;
-   height: 0.5em;
-   background-color: var(--accent-color);
-   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-   justify-self: end;
-}
-
-.select::after,
-select {
-   grid-area: select;
-}
-
-.select--disabled {
-   cursor: not-allowed;
-   background-color: #eee;
-   background-image: linear-gradient(to top, #ddd, #eee 33%);
-}
-
-select {
-   appearance: none;
-   background-color: var(--bg-color);
+select,
+#amount {
+   background-color: var(--select-color);
    color: var(--fg-color);
    font-family: var(--content-font);
-   font-size: inherit;
-   width: 100%;
-   margin: 0;
-   border: none;
-   padding: 0 1em 0 0;
-   cursor: inherit;
-   line-height: inherit;
-   outline: none;
 }
 
-select::-ms-expand {
-   display: none;
-}
-
-select:focus + .focus {
-   position: absolute;
-   top: -1px;
-   left: -1px;
-   right: -1px;
-   bottom: -1px;
-   border: 3px solid var(--accent-color);
-   border-radius: inherit;
+select {
+   font-size: 1.25rem;
 }
 
 fieldset {
@@ -354,7 +291,6 @@ legend {
 }
 
 #amount {
-   font-family: var(--content-font);
    font-size: 1.5rem;
    max-width: 4ch;
 }
@@ -392,17 +328,17 @@ legend {
    color: var(--fg-color);
 }
 
-section.dialog {
+div.dialog {
    justify-content: space-around;
    align-items: center;
    animation: fade-in 0.5s;
 }
 
-section.dialog > p {
+div.dialog > p {
    margin: 3rem;
 }
 
-section.dialog > button {
+div.dialog > button {
    margin-bottom: 3rem;
 }
 

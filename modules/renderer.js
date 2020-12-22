@@ -17,6 +17,7 @@ class Renderer {
    CARD_CLS = 'card';
    CORRECT_CLS = 'correct';
    CORRECT_LABEL_CLS = 'correct-label';
+   DETAILS_CLS = 'details';
    DIALOG_CLS = 'dialog';
    END_CLS = 'end';
    ERROR_CLS = 'error';
@@ -37,7 +38,6 @@ class Renderer {
    TIMED_ID = 'timed';
 
    /* TAGS */
-   DETAILS_TAG = 'details';
    FORM_TAG = 'form';
    MAIN_TAG = 'main';
 
@@ -52,6 +52,7 @@ class Renderer {
    CORRECT_QS = this.CLS.concat(this.CORRECT_CLS);
    CORRECT_LABEL_QS = this.CLS.concat(this.CORRECT_LABEL_CLS);
    DIALOG_QS = this.CLS.concat(this.DIALOG_CLS);
+   DETAILS_QS = this.CLS.concat(this.DETAILS_CLS);
    END_QS = this.CLS.concat(this.END_CLS);
    ERROR_QS = this.CLS.concat(this.ERROR_CLS);
    EXTENDED_QS = this.CLS.concat(this.EXTENDED_CLS);
@@ -91,6 +92,7 @@ class Renderer {
          ? `${extended}, ${this.level} difficulty`
          : extended;
       extended = this.type ? `${extended}, ${this.type} only` : extended;
+      extended = this.timed ? `${extended}, Timed scoring` : extended;
 
       document.querySelector(this.BASIC_QS).textContent = basic;
       document.querySelector(this.EXTENDED_QS).textContent = extended;
@@ -98,7 +100,7 @@ class Renderer {
       document.querySelector(this.CORRECT_LABEL_QS).textContent = 'correct:';
       document.querySelector(this.ANSWERED_LABEL_QS).textContent = 'answered:';
 
-      document.querySelector(this.DETAILS_TAG).style.visibility = 'visible';
+      document.querySelector(this.DETAILS_QS).style.visibility = 'visible';
    };
 
    renderGameover = (score, total, timed) => {
@@ -180,7 +182,7 @@ class Renderer {
    };
 
    resetDetails = () => {
-      document.querySelector(this.DETAILS_TAG).style.visibility = 'hidden';
+      document.querySelector(this.DETAILS_QS).style.visibility = 'hidden';
 
       document.querySelector(this.BASIC_QS).textContent = this.EMPTY;
       document.querySelector(this.EXTENDED_QS).textContent = this.EMPTY;
@@ -350,6 +352,8 @@ class Renderer {
 
       document.querySelector(this.FORM_DIALOG_QS).appendChild(section);
    };
+
+   setTimedConfig = timed => (this.timed = timed);
 
    startTimer = () => {
       this.startTime = performance.now();
