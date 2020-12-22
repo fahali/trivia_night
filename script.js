@@ -49,6 +49,20 @@ const formQuestionsURL = () => {
    amount = amount === '' ? api.defaults.min_amount : amount;
    url += and + api.arguments.amount + amount;
 
+   const validateOptions = () => {
+      let valid = true;
+      if (category > -1 && game.counts[category].total < amount) {
+         console.log(`cat: ${category}, count: ${game.counts[category].total}`);
+         valid = false;
+      }
+      return valid;
+   };
+
+   if (!validateOptions()) {
+      console.log(`not enough questions...`);
+      return null;
+   }
+
    console.log(url);
    return url;
 };
@@ -89,6 +103,12 @@ const requestToken = async url => {
    }
 };
 
+const resetToken = () => {
+   game.token = null;
+   storage.token = null;
+   storage.visitTime = Date.now();
+};
+
 const reset = () => {
    game.reset();
    renderer.reset();
@@ -116,7 +136,7 @@ const start = async url => {
       // RESPONSE 3 - TOKEN NOT FOUND
       // For when the session token expires after 6 hours
       else if (data.response_code === api.response_codes.token_not_found) {
-         game.token = null;
+         resetToken();
          startWithToken();
       }
 
@@ -125,6 +145,7 @@ const start = async url => {
       // available questions
       else if (data.response_code === api.response_codes.token_empty) {
          // TODO - alert user they finished all questions
+         // resetToken();
          startWithToken();
       }
    } catch (error) {
@@ -133,7 +154,16 @@ const start = async url => {
 };
 
 const startWithToken = () => {
-   requestToken(formTokenURL()).then(() => start(formQuestionsURL()));
+   requestToken(formTokenURL()).then(() => validateStart());
+};
+
+const validateStart = () => {
+   const url = formQuestionsURL();
+   if (url === null) {
+      console.log(`bad request`);
+      return;
+   }
+   start(url);
 };
 
 document.body.addEventListener('click', event => {
@@ -150,7 +180,7 @@ document.body.addEventListener('click', event => {
       if (game.token === null) {
          startWithToken();
       } else {
-         start(formQuestionsURL());
+         validateStart();
       }
    }
 
