@@ -23,6 +23,7 @@ class Renderer {
    ERROR_CLS = 'error';
    EXTENDED_CLS = 'extended-config';
    GAMEOVER_CLS = 'gameover';
+   INPUT_CLS = 'input';
    MENU_CLS = 'menu';
    OPTIONS_CLS = 'options';
    OPTIONS_BUTTONS_CLS = 'options-buttons';
@@ -57,6 +58,7 @@ class Renderer {
    ERROR_QS = this.CLS.concat(this.ERROR_CLS);
    EXTENDED_QS = this.CLS.concat(this.EXTENDED_CLS);
    GAMEOVER_QS = this.CLS.concat(this.GAMEOVER_CLS);
+   INPUT_QS = this.CLS.concat(this.INPUT_CLS);
    MENU_QS = this.CLS.concat(this.MENU_CLS);
    OPTIONS_QS = this.CLS.concat(this.OPTIONS_CLS);
    OPTIONS_BUTTONS_QS = this.CLS.concat(this.OPTIONS_BUTTONS_CLS);
@@ -152,9 +154,7 @@ class Renderer {
    };
 
    renderError = () => {
-      const error = document.querySelector(this.ERROR_QS);
-      console.log(error);
-      error.style.display = 'flex';
+      document.querySelector(this.ERROR_QS).style.display = 'flex';
    };
 
    renderScore = (score = 0, answered = 0) => {
@@ -207,6 +207,7 @@ class Renderer {
       }
       this.level = null;
       this.type = null;
+      this.timed = false;
 
       document.querySelector(this.AMOUNT_QS).value = this.EMPTY;
       document.querySelector(this.TIMED_QS).checked = false;
@@ -236,6 +237,7 @@ class Renderer {
       input.type = 'number';
       input.id = id;
       input.name = id;
+      input.classList.add(this.INPUT_CLS);
       input.min = min;
       input.max = max;
       input.placeholder = 10;
@@ -292,6 +294,7 @@ class Renderer {
          radio.type = 'radio';
          radio.name = 'level';
          radio.id = level;
+         radio.classList.add(this.INPUT_CLS);
 
          label.setAttribute('for', level);
          label.textContent = this.toTitleCase(level);
@@ -341,6 +344,7 @@ class Renderer {
       input.type = 'checkbox';
       input.id = id;
       input.name = id;
+      input.classList.add(this.INPUT_CLS);
 
       label.setAttribute('for', id);
       label.textContent = id.toUpperCase();
@@ -392,6 +396,7 @@ class Renderer {
          radio.type = 'radio';
          radio.name = 'type';
          radio.id = type;
+         radio.classList.add(this.INPUT_CLS);
 
          label.setAttribute('for', type);
          label.textContent = text;

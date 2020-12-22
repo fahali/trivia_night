@@ -26,29 +26,29 @@ TODO
 
 | Task                                   | Priority | Estimated Time | Time Invested | Actual Time |
 | -------------------------------------- | :------: | :------------: | :-----------: | :---------: |
-| Setup: GitHub Pages, Trello, README.md |    H     |     2 hrs      |     1 hrs     |    X hrs    |
-| Basic game loop                        |    H     |     4 hrs      |     3 hrs     |    X hrs    |
-| Basic styling                          |    H     |     4 hrs      |     3 hrs     |    X hrs    |
-| Bug fixing / refactoring               |    H     |     8 hrs      |   14.5 hrs    |    X hrs    |
-| Advanced API features                  |    M     |     4 hrs      |     9 hrs     |    X hrs    |
-| Timed scoring                          |    M     |     4 hrs      |     6 hrs     |    X hrs    |
-| Advanced Styling                       |    M     |     8 hrs      |    2.5 hrs    |    X hrs    |
-| Save user session / prefs via cookies  |    L     |     4 hrs      |     X hrs     |    X hrs    |
+| Setup: GitHub Pages, Trello, README.md |    H     |     2 hrs      |     1 hrs     |    1 hrs    |
+| Basic game loop                        |    H     |     4 hrs      |     3 hrs     |    3 hrs    |
+| Basic styling                          |    H     |     4 hrs      |     3 hrs     |    3 hrs    |
+| Bug fixing / refactoring               |    H     |     8 hrs      |   18.5 hrs    |  18.5 hrs   |
+| Advanced API features                  |    M     |     4 hrs      |     9 hrs     |    9 hrs    |
+| Timed scoring                          |    M     |     4 hrs      |     6 hrs     |    6 hrs    |
+| Advanced Styling                       |    M     |     8 hrs      |    2.5 hrs    |   2.5 hrs   |
+| Save user session / prefs via cookies  |    L     |     4 hrs      |     4 hrs     |    4 hrs    |
 | Responsive design                      |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | Quick Game mode                        |    M     |     2 hrs      |     X hrs     |    X hrs    |
 | Elevator music                         |    L     |     4 hrs      |     X hrs     |    X hrs    |
 | Light/dark theme                       |    L     |     8 hrs      |     X hrs     |    X hrs    |
 | jQuery re-write                        |    L     |     8 hrs      |     X hrs     |    X hrs    |
-| Total                                  |    X     |     68 hrs     |    39 hrs     |    X hrs    |
+| Total                                  |    X     |     68 hrs     |    47 hrs     |   47 hrs    |
 
 ## Project Schedule
 
-| Day    | Deliverable                                              | Status     |
-| ------ | -------------------------------------------------------- | ---------- |
-| Dec 17 | Setup / Basic logic / Basic styling                      | complete   |
-| Dec 18 | Advanced API features / Timed scoring / Advanced styling | complete   |
-| Dec 19 | Integrate cookies and user session / Quick Game mode     | incomplete |
-| Dec 20 | Responsive design / Light/dark theme                     | incomplete |
-| Dec 21 | Elevator music / jQuery re-write                         | incomplete |
-| Dec 22 | Last touches / Polishing up                              | incomplete |
+| Day    | Deliverable                                              | Status      |
+| ------ | -------------------------------------------------------- | ----------- |
+| Dec 17 | Setup / Basic logic / Basic styling                      | complete    |
+| Dec 18 | Advanced API features / Timed scoring / Advanced styling | complete    |
+| Dec 19 | Integrate cookies and user session / Quick Game mode     | in progress |
+| Dec 20 | Responsive design / Light/dark theme                     | incomplete  |
+| Dec 21 | Elevator music / jQuery re-write                         | incomplete  |
+| Dec 22 | Last touches / Polishing up                              | incomplete  |
 | Dec 23 | Presentations                                            |

@@ -39,7 +39,7 @@
             </p>
             <div class="category">
                <label for="categories">CATEGORY</label>
-               <select name="categories" id="categories"></select>
+               <select name="categories" id="categories" class="input"></select>
             </div>
          </form>
       </aside>
@@ -50,15 +50,15 @@
          </div>
       </aside>
       <aside class="error modal">
-         <section class="dialog">
+         <div class="dialog">
             <!-- TODO - More info here so the user knows what to change  -->
             <p class="error-msg">
                Uh oh, you requested a combination of options that can't be
-               fulfilled. Please reduce the number of questions requested, or be
-               less specific in choosing your options.
+               fulfilled.<br /><br />Please reduce the number of questions
+               requested, or be less specific in choosing your options.
             </p>
             <button type="button" class="new menu button">NEW GAME</button>
-         </section>
+         </div>
       </aside>
       <script type="module" src="script.js"></script>
    </body>

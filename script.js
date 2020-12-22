@@ -272,6 +272,9 @@ const setCategoryCount = async url => {
       const response = await fetch(api.category_list);
       const data = await response.json();
 
+      // TODO - We will pass in a callback to the function below
+      // To update the game object's category count
+      // So we can avoid looping twice
       data.trivia_categories.forEach(category =>
          setCategoryCount(formCategoryCountURL(category.id))
       );

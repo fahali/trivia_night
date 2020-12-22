@@ -61,10 +61,8 @@ header > * {
 }
 
 .button,
-.radio > input,
-.timed > input,
-.details > .summary {
-   outline-style: none;
+.input {
+   outline: none;
 }
 
 .button {
@@ -236,6 +234,15 @@ form.dialog > * {
    align-items: center;
 }
 
+.input {
+   transition: all 0.2s linear;
+}
+
+.input:focus,
+.input:hover {
+   box-shadow: 0 0 11px 2px var(--accent-color);
+}
+
 select,
 #amount {
    background-color: var(--select-color);
@@ -277,7 +284,8 @@ legend {
    border-radius: 50%;
 }
 
-.radio > input:checked {
+.radio > input:checked,
+.timed > input:checked {
    border: 11px solid var(--accent-color);
 }
 
@@ -305,10 +313,6 @@ legend {
    border-radius: 25%;
 }
 
-.timed > input:checked {
-   border: 11px outset var(--accent-color);
-}
-
 .options-buttons {
    display: flex;
    justify-content: space-evenly;
@@ -329,6 +333,7 @@ legend {
 }
 
 div.dialog {
+   max-width: 800px;
    justify-content: space-around;
    align-items: center;
    animation: fade-in 0.5s;
