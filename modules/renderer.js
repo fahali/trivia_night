@@ -19,6 +19,7 @@ class Renderer {
    CORRECT_LABEL_CLS = 'correct-label';
    DIALOG_CLS = 'dialog';
    END_CLS = 'end';
+   ERROR_CLS = 'error';
    EXTENDED_CLS = 'extended-config';
    GAMEOVER_CLS = 'gameover';
    MENU_CLS = 'menu';
@@ -52,6 +53,7 @@ class Renderer {
    CORRECT_LABEL_QS = this.CLS.concat(this.CORRECT_LABEL_CLS);
    DIALOG_QS = this.CLS.concat(this.DIALOG_CLS);
    END_QS = this.CLS.concat(this.END_CLS);
+   ERROR_QS = this.CLS.concat(this.ERROR_CLS);
    EXTENDED_QS = this.CLS.concat(this.EXTENDED_CLS);
    GAMEOVER_QS = this.CLS.concat(this.GAMEOVER_CLS);
    MENU_QS = this.CLS.concat(this.MENU_CLS);
@@ -147,6 +149,12 @@ class Renderer {
       this.startTimer();
    };
 
+   renderError = () => {
+      const error = document.querySelector(this.ERROR_QS);
+      console.log(error);
+      error.style.display = 'flex';
+   };
+
    renderScore = (score = 0, answered = 0) => {
       document.querySelector(this.CORRECT_QS).textContent = score;
       document.querySelector(this.ANSWERED_QS).textContent = answered;
@@ -157,9 +165,7 @@ class Renderer {
       this.resetDetails();
       this.resetScore();
       this.resetCard();
-
-      document.querySelector(this.END_QS).style.display = 'none';
-      document.querySelector(this.GAMEOVER_QS).textContent = this.EMPTY;
+      this.resetModals();
    };
 
    resetCard = () => {
@@ -181,6 +187,13 @@ class Renderer {
 
       document.querySelector(this.CORRECT_LABEL_QS).textContent = this.EMPTY;
       document.querySelector(this.ANSWERED_LABEL_QS).textContent = this.EMPTY;
+   };
+
+   resetModals = () => {
+      document.querySelector(this.END_QS).style.display = 'none';
+      document.querySelector(this.GAMEOVER_QS).textContent = this.EMPTY;
+
+      document.querySelector(this.ERROR_QS).style.display = 'none';
    };
 
    resetOptions = () => {
@@ -233,11 +246,8 @@ class Renderer {
       document.querySelector(this.FORM_DIALOG_QS).appendChild(section);
    };
 
-   // TODO
-   // As we make categories, we should also record them to the game object
-   // perhaps with a callback
-   // so we can keep track of how many questions we can still serve?
-   // Might be unnecessary with response code 1
+   // TODO - Callback to game here so we avoid two loops in script.js
+   // TODO - We can keep track of how many questions we can still serve
    setCategories = categories => {
       // A quick and easy way to have placeholder text for the dropdown menu
       // https://stackoverflow.com/a/30525521/1987724

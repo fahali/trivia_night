@@ -92,4 +92,4 @@ class Game {
 
 export default Game;
 
-// write tests to make sure score functions return the values you want them to
+// TODO - Test score functions' return values

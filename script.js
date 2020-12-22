@@ -49,21 +49,25 @@ const formQuestionsURL = () => {
    amount = amount === '' ? api.defaults.min_amount : amount;
    url += and + api.arguments.amount + amount;
 
+   // TODO - Check specific difficulty question counts are valid
+   // TODO - Track questions served, so we can avoid calling API twice
    const validateOptions = () => {
       let valid = true;
       if (category > -1 && game.counts[category].total < amount) {
-         console.log(`cat: ${category}, count: ${game.counts[category].total}`);
+         // console.log(
+         //    `cat: ${category}, total count: ${game.counts[category].total}`
+         // );
          valid = false;
       }
       return valid;
    };
 
    if (!validateOptions()) {
-      console.log(`not enough questions...`);
+      // console.log(`not enough questions...`);
       return null;
    }
 
-   console.log(url);
+   // console.log(url);
    return url;
 };
 
@@ -99,7 +103,7 @@ const requestToken = async url => {
          storage.token = data.token;
       }
    } catch (error) {
-      return console.log(error);
+      // console.log(error);
    }
 };
 
@@ -149,7 +153,7 @@ const start = async url => {
          startWithToken();
       }
    } catch (error) {
-      return console.log(error);
+      // console.log(error);
    }
 };
 
@@ -160,7 +164,8 @@ const startWithToken = () => {
 const validateStart = () => {
    const url = formQuestionsURL();
    if (url === null) {
-      console.log(`bad request`);
+      // console.log(`bad request`);
+      renderer.renderError();
       return;
    }
    start(url);
@@ -219,17 +224,23 @@ const checkSession = () => {
       const sec = 60;
       const min = 60;
       const elapsed = (now - lastTime) / (ms * sec * min);
-      console.log(`since last visit: ${elapsed.toFixed(2)} hours`);
+      storage.log = `since last visit: ${elapsed.toFixed(2)} hours`;
 
+      // If 6 hours haven't passed since the last time we were here,
+      // use our old session token
       if (elapsed < 6 && storage.token) {
          game.token = storage.token;
       }
 
+      // If 6 hours have passed since the last time we were here,
+      // don't assign the old token, it is invalid.
+      // The game will automatically request a new token
       if (elapsed >= 6) {
-         console.log(`should only be here when elapsed is >= 6`);
+         // console.log(`should only be here when elapsed time is >= 6 hours`);
          storage.visitTime = now;
       }
    } else {
+      // console.log(`no storage: last time is ${lastTime}`);
       storage.visitTime = now;
    }
 };
@@ -248,7 +259,7 @@ const setCategoryCount = async url => {
 
       game.setCategoryCount(data.category_id.toString(), category);
    } catch (error) {
-      console.log(error);
+      // console.log(error);
    }
 };
 
@@ -272,7 +283,7 @@ const setCategoryCount = async url => {
          })
       );
    } catch (error) {
-      console.log(error);
+      // console.log(error);
    }
 
    renderer.setLevels(api.arguments.levels);
