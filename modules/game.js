@@ -1,11 +1,18 @@
 class Game {
+   /* CONSTANTS */
+   SCORE_SCALE = 10;
+   SCORE_WEIGHT = 3.333;
+   TIME_LIMIT = 30;
+   TIME_TOTAL = 100;
+
    constructor() {
       this.reset();
       this.timed = false;
       this.token = null;
-      this.timeLimit = 30;
-      this.weightFactor = 3.333;
+      this.counts = {};
    }
+
+   setCategoryCount = (id, category) => (this.counts[id] = category);
 
    getAllAnswers = () => {
       // Fisher - Yates shuffle algorithm written in Javascript
@@ -34,7 +41,7 @@ class Game {
 
    getFinalScore = () => {
       return this.timed
-         ? Math.ceil((this.weightedScore * this.weightFactor) / 10)
+         ? ((this.weighted * this.SCORE_WEIGHT) / this.SCORE_SCALE).toFixed(2)
          : this.score;
    };
 
@@ -44,25 +51,27 @@ class Game {
 
    getTotalQuestions = () => this.questions.length;
 
-   getTotalScore = () => (this.timed ? 100 : this.getTotalQuestions());
+   getTotalScore = () => {
+      return this.timed ? this.TIME_TOTAL.toFixed(2) : this.getTotalQuestions();
+   };
 
    isGameOver = () => this.index === this.getTotalQuestions();
 
    nextQuestion = () => this.index++;
 
    processAnswer = (answer, time) => {
-      const timeScore = this.timeLimit - time;
+      const elapsed = this.TIME_LIMIT - time;
       const correct = answer === this.getCorrectAnswer();
       // if the user has elapsed the time limit or answered incorrectly
       // they don't get any points
-      this.weightedScore += correct && timeScore > 0 ? timeScore : 0;
+      this.weighted += correct && elapsed > 0 ? elapsed : 0;
       this.score += correct ? 1 : 0;
    };
 
    reset = () => {
       this.index = 0;
       this.score = 0;
-      this.weightedScore = 0;
+      this.weighted = 0;
       this.questions = null;
    };
 
@@ -82,3 +91,5 @@ class Game {
 }
 
 export default Game;
+
+// write tests to make sure score functions return the values you want them to

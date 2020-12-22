@@ -1,7 +1,7 @@
 class Renderer {
    /* CONSTANTS */
    EMPTY = '';
-   UPDATE_INTERVAL = 100;
+   UPDATE_INTERVAL = 0.1 * 1000;
 
    /* QUERY SELECTORS */
    CLS = '.';
@@ -99,11 +99,15 @@ class Renderer {
       document.querySelector(this.DETAILS_TAG).style.visibility = 'visible';
    };
 
-   renderGameover = (score, total) => {
+   renderGameover = (score, total, timed) => {
       const gameover = document.querySelector(this.GAMEOVER_QS);
 
       gameover.appendChild(
-         document.createTextNode(`You scored ${score} out of ${total}!`)
+         document.createTextNode(
+            `You scored ${score}${timed ? '%' : ''} out of ${total}${
+               timed ? '%' : ''
+            }!`
+         )
       );
 
       gameover.appendChild(document.createElement('br'));
@@ -339,11 +343,11 @@ class Renderer {
 
    startTimer = () => {
       this.startTime = performance.now();
-      this.elapsedTime = 300;
+      this.remaining = 300;
 
       this.timer = setInterval(() => {
          document.querySelector(this.TIMER_QS).style.width = `${
-            --this.elapsedTime / 3
+            --this.remaining / 3
          }%`;
       }, this.UPDATE_INTERVAL);
 

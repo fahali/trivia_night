@@ -12,8 +12,8 @@
    --fg-color: rgba(252, 236, 214, 1);
    --main-color: rgba(8, 40, 96, 1);
    --accent-color: rgba(252, 55, 91, 1);
-   --inactive-shadow: rgba(0, 0, 0, 0.9);
    --active-shadow: rgba(247, 217, 175, 1);
+   --inactive-shadow: rgba(0, 0, 0, 0.9);
    --main-font: 'Fredoka One', cursive;
    --content-font: Inter, sans-serif;
 }
@@ -370,7 +370,7 @@ legend {
 }
 
 .timed > input:checked {
-   border: 11px solid var(--accent-color);
+   border: 11px outset var(--accent-color);
 }
 
 .options-buttons {
