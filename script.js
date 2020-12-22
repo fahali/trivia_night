@@ -160,6 +160,7 @@ document.body.addEventListener('click', event => {
 
    if (target.name === 'timed') {
       game.timed = target.checked;
+      renderer.setTimedConfig(target.checked);
    }
 
    if (target.classList.contains('reset')) {

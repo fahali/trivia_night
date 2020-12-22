@@ -12,23 +12,23 @@
          <button type="button" class="new menu button">NEW GAME</button>
       </header>
       <main>
-         <section class="timer"></section>
-         <details>
-            <summary>
-               <p class="basic-config"></p>
-               <section class="quick-score">
+         <div class="timer"></div>
+         <div class="details">
+            <div class="summary">
+               <span class="basic-config"></span>
+               <div class="quick-score">
                   <p class="correct-label"></p>
                   <p class="correct"></p>
-               </section>
-            </summary>
-            <section class="stats">
+               </div>
+            </div>
+            <div class="stats">
                <p class="extended-config"></p>
-               <section class="detailed-score">
+               <div class="detailed-score">
                   <p class="answered-label"></p>
                   <p class="answered"></p>
-               </section>
-            </section>
-         </details>
+               </div>
+            </div>
+         </div>
       </main>
       <aside class="options modal">
          <form class="dialog">
@@ -37,20 +37,17 @@
                get 10 questions of mixed category, mixed difficulty, and mixed
                type.
             </p>
-            <section class="category">
+            <div class="category">
                <label for="categories">CATEGORY</label>
-               <div class="select">
-                  <select name="categories" id="categories"></select>
-                  <span class="focus"></span>
-               </div>
-            </section>
+               <select name="categories" id="categories"></select>
+            </div>
          </form>
       </aside>
       <aside class="end modal">
-         <section class="dialog">
+         <div class="dialog">
             <p class="gameover"></p>
             <button type="button" class="new menu button">NEW GAME</button>
-         </section>
+         </div>
       </aside>
       <script type="module" src="script.js"></script>
    </body>
