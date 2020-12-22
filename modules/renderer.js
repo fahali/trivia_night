@@ -86,43 +86,6 @@ class Renderer {
       document.querySelector(this.OPTIONS_QS).style.display = 'none';
    };
 
-   renderDetails = questions => {
-      const basic = this.category ? this.category : 'Mixed category';
-      let extended = `${questions} questions`;
-
-      extended = this.level
-         ? `${extended}, ${this.level} difficulty`
-         : extended;
-      extended = this.type ? `${extended}, ${this.type} only` : extended;
-      extended = this.timed ? `${extended}, Timed scoring` : extended;
-
-      document.querySelector(this.BASIC_QS).textContent = basic;
-      document.querySelector(this.EXTENDED_QS).textContent = extended;
-
-      document.querySelector(this.CORRECT_LABEL_QS).textContent = 'correct:';
-      document.querySelector(this.ANSWERED_LABEL_QS).textContent = 'answered:';
-
-      document.querySelector(this.DETAILS_QS).style.visibility = 'visible';
-   };
-
-   renderGameover = (score, total, timed) => {
-      const gameover = document.querySelector(this.GAMEOVER_QS);
-
-      gameover.appendChild(
-         document.createTextNode(
-            `You scored ${score}${timed ? '%' : ''} out of ${total}${
-               timed ? '%' : ''
-            }!`
-         )
-      );
-
-      gameover.appendChild(document.createElement('br'));
-      gameover.appendChild(document.createElement('br'));
-      gameover.appendChild(document.createTextNode('Play again?'));
-
-      document.querySelector(this.END_QS).style.display = 'flex';
-   };
-
    renderCard = (question, answers) => {
       this.resetCard();
 
@@ -153,8 +116,45 @@ class Renderer {
       this.startTimer();
    };
 
+   renderDetails = questions => {
+      const basic = this.category ? this.category : 'Mixed category';
+      let extended = `${questions} questions`;
+
+      extended = this.level
+         ? `${extended}, ${this.level} difficulty`
+         : extended;
+      extended = this.type ? `${extended}, ${this.type} only` : extended;
+      extended = this.timed ? `${extended}, Timed scoring` : extended;
+
+      document.querySelector(this.BASIC_QS).textContent = basic;
+      document.querySelector(this.EXTENDED_QS).textContent = extended;
+
+      document.querySelector(this.CORRECT_LABEL_QS).textContent = 'correct:';
+      document.querySelector(this.ANSWERED_LABEL_QS).textContent = 'answered:';
+
+      document.querySelector(this.DETAILS_QS).style.visibility = 'visible';
+   };
+
    renderError = () => {
       document.querySelector(this.ERROR_QS).style.display = 'flex';
+   };
+
+   renderGameover = (score, total, timed) => {
+      const gameover = document.querySelector(this.GAMEOVER_QS);
+
+      gameover.appendChild(
+         document.createTextNode(
+            `You scored ${score}${timed ? '%' : ''} out of ${total}${
+               timed ? '%' : ''
+            }!`
+         )
+      );
+
+      gameover.appendChild(document.createElement('br'));
+      gameover.appendChild(document.createElement('br'));
+      gameover.appendChild(document.createTextNode('Play again?'));
+
+      document.querySelector(this.END_QS).style.display = 'flex';
    };
 
    renderScore = (score = 0, answered = 0) => {
@@ -359,26 +359,6 @@ class Renderer {
 
    setTimedConfig = timed => (this.timed = timed);
 
-   startTimer = () => {
-      this.startTime = performance.now();
-      this.remaining = 300;
-
-      this.timer = setInterval(() => {
-         document.querySelector(this.TIMER_QS).style.width = `${
-            --this.remaining / 3
-         }%`;
-      }, this.UPDATE_INTERVAL);
-
-      document.querySelector(this.TIMER_QS).style.visibility = 'visible';
-   };
-
-   stopTimer = () => {
-      this.endTime = performance.now();
-      this.resetTimer();
-
-      return Math.floor((this.endTime - this.startTime) / 1000);
-   };
-
    setTypeConfig = type => (this.type = this.getTypeString(type));
 
    setTypes = types => {
@@ -414,6 +394,26 @@ class Renderer {
 
    showOptions = () => {
       document.querySelector(this.OPTIONS_QS).style.display = 'flex';
+   };
+
+   startTimer = () => {
+      this.startTime = performance.now();
+      this.remaining = 300;
+
+      this.timer = setInterval(() => {
+         document.querySelector(this.TIMER_QS).style.width = `${
+            --this.remaining / 3
+         }%`;
+      }, this.UPDATE_INTERVAL);
+
+      document.querySelector(this.TIMER_QS).style.visibility = 'visible';
+   };
+
+   stopTimer = () => {
+      this.endTime = performance.now();
+      this.resetTimer();
+
+      return Math.floor((this.endTime - this.startTime) / 1000);
    };
 
    toTitleCase = string => {

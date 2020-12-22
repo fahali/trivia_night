@@ -6,18 +6,37 @@ const game = new Game();
 const renderer = new Renderer();
 const storage = window.localStorage;
 
-const formCategoryCountURL = category => {
-   return api.category_count + api.arguments.category + category;
+const checkSession = () => {
+   const now = Date.now();
+   const lastTime = storage.visitTime;
+   if (lastTime) {
+      const ms = 1000;
+      const sec = 60;
+      const min = 60;
+      const elapsed = (now - lastTime) / (ms * sec * min);
+      storage.log = `since last visit: ${elapsed.toFixed(2)} hours`;
+
+      // If 6 hours haven't passed since the last time we were here,
+      // use our old session token
+      if (elapsed < 6 && storage.token) {
+         game.token = storage.token;
+      }
+
+      // If 6 hours have passed since the last time we were here,
+      // don't assign the old token, it is invalid.
+      // The game will automatically request a new token
+      if (elapsed >= 6) {
+         // console.log(`should only be here when elapsed time is >= 6 hours`);
+         storage.visitTime = now;
+      }
+   } else {
+      // console.log(`no storage: last time is ${lastTime}`);
+      storage.visitTime = now;
+   }
 };
 
-const formTokenURL = () => {
-   return game.token === null
-      ? api.session + api.arguments.request
-      : api.session +
-           api.arguments.reset +
-           '&' +
-           api.arguments.token +
-           game.token;
+const formCategoryCountURL = category => {
+   return api.category_count + api.arguments.category + category;
 };
 
 const formQuestionsURL = () => {
@@ -71,6 +90,16 @@ const formQuestionsURL = () => {
    return url;
 };
 
+const formTokenURL = () => {
+   return game.token === null
+      ? api.session + api.arguments.request
+      : api.session +
+           api.arguments.reset +
+           '&' +
+           api.arguments.token +
+           game.token;
+};
+
 const processAnswer = answer => {
    const time = renderer.stopTimer();
    game.processAnswer(answer, time);
@@ -116,6 +145,24 @@ const resetToken = () => {
 const reset = () => {
    game.reset();
    renderer.reset();
+};
+
+const setCategoryCount = async url => {
+   try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const category = {
+         total: data.category_question_count.total_question_count,
+         easy: data.category_question_count.total_easy_question_count,
+         medium: data.category_question_count.total_medium_question_count,
+         hard: data.category_question_count.total_hard_question_count
+      };
+
+      game.setCategoryCount(data.category_id.toString(), category);
+   } catch (error) {
+      // console.log(error);
+   }
 };
 
 const start = async url => {
@@ -216,53 +263,6 @@ document.body.addEventListener('click', event => {
       game.timed = false;
    }
 });
-
-const checkSession = () => {
-   const now = Date.now();
-   const lastTime = storage.visitTime;
-   if (lastTime) {
-      const ms = 1000;
-      const sec = 60;
-      const min = 60;
-      const elapsed = (now - lastTime) / (ms * sec * min);
-      storage.log = `since last visit: ${elapsed.toFixed(2)} hours`;
-
-      // If 6 hours haven't passed since the last time we were here,
-      // use our old session token
-      if (elapsed < 6 && storage.token) {
-         game.token = storage.token;
-      }
-
-      // If 6 hours have passed since the last time we were here,
-      // don't assign the old token, it is invalid.
-      // The game will automatically request a new token
-      if (elapsed >= 6) {
-         // console.log(`should only be here when elapsed time is >= 6 hours`);
-         storage.visitTime = now;
-      }
-   } else {
-      // console.log(`no storage: last time is ${lastTime}`);
-      storage.visitTime = now;
-   }
-};
-
-const setCategoryCount = async url => {
-   try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      const category = {
-         total: data.category_question_count.total_question_count,
-         easy: data.category_question_count.total_easy_question_count,
-         medium: data.category_question_count.total_medium_question_count,
-         hard: data.category_question_count.total_hard_question_count
-      };
-
-      game.setCategoryCount(data.category_id.toString(), category);
-   } catch (error) {
-      // console.log(error);
-   }
-};
 
 (async () => {
    checkSession();

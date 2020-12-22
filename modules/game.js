@@ -11,8 +11,6 @@ class Game {
       this.counts = {};
    }
 
-   setCategoryCount = (id, category) => (this.counts[id] = category);
-
    getAllAnswers = () => {
       // Fisher - Yates shuffle algorithm written in Javascript
       // https://stackoverflow.com/a/6274381
@@ -76,6 +74,8 @@ class Game {
       this.weighted = 0;
       this.questions = null;
    };
+
+   setCategoryCount = (id, category) => (this.counts[id] = category);
 
    setQuestions = questions => {
       this.questions = questions.map(question => {
