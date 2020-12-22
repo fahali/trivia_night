@@ -1,6 +1,5 @@
 class Game {
    /* CONSTANTS */
-   SCORE_SCALE = 10;
    SCORE_WEIGHT = 3.333;
    TIME_LIMIT = 30;
    TIME_TOTAL = 100;
@@ -41,7 +40,10 @@ class Game {
 
    getFinalScore = () => {
       return this.timed
-         ? ((this.weighted * this.SCORE_WEIGHT) / this.SCORE_SCALE).toFixed(2)
+         ? (
+              (this.weighted * this.SCORE_WEIGHT) /
+              this.getTotalQuestions()
+           ).toFixed(2)
          : this.score;
    };
 
