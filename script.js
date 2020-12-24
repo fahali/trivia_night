@@ -21,17 +21,6 @@ const checkSession = () => {
       if (elapsed < 6 && storage.token) {
          game.token = storage.token;
       }
-
-      // If 6 hours have passed since the last time we were here,
-      // don't assign the old token, it is invalid.
-      // The game will automatically request a new token
-      if (elapsed >= 6) {
-         // console.log(`should only be here when elapsed time is >= 6 hours`);
-         storage.visitTime = now;
-      }
-   } else {
-      // console.log(`no storage: last time is ${lastTime}`);
-      storage.visitTime = now;
    }
 };
 
@@ -128,17 +117,16 @@ const requestToken = async url => {
       const response = await fetch(url);
       const data = await response.json();
       if (data.response_code === api.response_codes.success) {
-         game.token = data.token;
-         storage.token = data.token;
+         resetToken(data.token);
       }
    } catch (error) {
       // console.log(error);
    }
 };
 
-const resetToken = () => {
-   game.token = null;
-   storage.token = null;
+const resetToken = (token = null) => {
+   game.token = token;
+   storage.token = token;
    storage.visitTime = Date.now();
 };
 
