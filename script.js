@@ -228,8 +228,11 @@ document.body.addEventListener('click', event => {
       processAnswer(target.textContent);
    }
 
-   if (target.tagName === 'OPTION') {
-      renderer.setCategoryConfig(target.textContent);
+   if (target.tagName === 'SELECT') {
+      const category = Array.from(target.childNodes).find(category => {
+         return category.value === target.value;
+      });
+      renderer.setCategoryConfig(category.textContent);
    }
 
    if (target.name === 'level') {
