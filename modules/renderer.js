@@ -252,7 +252,7 @@ class Renderer {
 
    // TODO - Callback to game here so we avoid two loops in script.js
    // TODO - We can keep track of how many questions we can still serve
-   setCategories = categories => {
+   setCategories = (categories, setCategoryCount) => {
       // A quick and easy way to have placeholder text for the dropdown menu
       // https://stackoverflow.com/a/30525521/1987724
       let option = document.createElement('option');
@@ -267,6 +267,9 @@ class Renderer {
       select.appendChild(option);
 
       categories.forEach(category => {
+         // set our question count in the game object with this callback
+         setCategoryCount(category.id);
+
          option = document.createElement('option');
 
          option.value = category.id;

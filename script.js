@@ -9,11 +9,13 @@ const storage = window.localStorage;
 const checkSession = () => {
    const now = Date.now();
    const lastTime = storage.visitTime;
+
    if (lastTime) {
       const ms = 1000;
       const sec = 60;
       const min = 60;
       const elapsed = (now - lastTime) / (ms * sec * min);
+
       storage.log = `since last visit: ${elapsed.toFixed(2)} hours`;
 
       // If 6 hours haven't passed since the last time we were here,
@@ -61,12 +63,14 @@ const formQuestionsURL = () => {
    // TODO - Track questions served, so we can avoid calling API twice
    const validateOptions = () => {
       let valid = true;
+
       if (category > -1 && game.counts[category].total < amount) {
          // console.log(
          //    `cat: ${category}, total count: ${game.counts[category].total}`
          // );
          valid = false;
       }
+
       return valid;
    };
 
@@ -116,6 +120,7 @@ const requestToken = async url => {
    try {
       const response = await fetch(url);
       const data = await response.json();
+
       if (data.response_code === api.response_codes.success) {
          resetToken(data.token);
       }
@@ -135,9 +140,9 @@ const reset = () => {
    renderer.reset();
 };
 
-const setCategoryCount = async url => {
+const setCategoryCount = async id => {
    try {
-      const response = await fetch(url);
+      const response = await fetch(formCategoryCountURL(id));
       const data = await response.json();
 
       const category = {
@@ -198,11 +203,14 @@ const startWithToken = () => {
 
 const validateStart = () => {
    const url = formQuestionsURL();
+
    if (url === null) {
       // console.log(`bad request`);
       renderer.renderError();
+
       return;
    }
+
    start(url);
 };
 
@@ -229,6 +237,7 @@ document.body.addEventListener('click', event => {
    }
 
    if (target.tagName === 'SELECT') {
+      // TODO - There is probably a better way to do this
       const category = Array.from(target.childNodes).find(category => {
          return category.value === target.value;
       });
@@ -263,19 +272,13 @@ document.body.addEventListener('click', event => {
       const response = await fetch(api.category_list);
       const data = await response.json();
 
-      // TODO - We will pass in a callback to the function below
-      // To update the game object's category count
-      // So we can avoid looping twice
-      data.trivia_categories.forEach(category =>
-         setCategoryCount(formCategoryCountURL(category.id))
-      );
-
       renderer.setCategories(
          data.trivia_categories.sort((a, b) => {
             const nameA = a.name.toLowerCase();
             const nameB = b.name.toLowerCase();
             return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-         })
+         }),
+         setCategoryCount
       );
    } catch (error) {
       // console.log(error);
