@@ -1,4 +1,3 @@
-![sick ass drift](https://media.giphy.com/media/WrW94onAIkrlu/giphy.gif)
 [![title banner](https://i.imgur.com/cC9KC9i.png)](https://fahali.github.io/trivia_night)
 
 # Trivia Night
